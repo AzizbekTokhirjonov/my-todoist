@@ -9,6 +9,7 @@ import Upcoming from "./components/Content/Upcoming";
 import Filters from "./components/Content/Filters";
 function App() {
   const [open, setOpen] = React.useState(false);
+
   return (
     <div>
       <Router>

@@ -3,10 +3,11 @@ import { FaRegCommentAlt } from "react-icons/fa";
 import TextField from "@mui/material/TextField";
 import { BsThreeDots, BsSliders, BsFillPlusCircleFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
+import AddTask from "./AddTask";
 const Inbox = () => {
   const [hover, setHover] = useState(false);
   const [section, setSection] = useState("");
-
+  const [addTask, setAddTask] = useState(false);
   const sections = [];
 
   const addSection = (e) => {
@@ -43,18 +44,23 @@ const Inbox = () => {
           </ul>
         </div>
       </div>
-      <div
-        className="add-task mt-4"
-        onMouseOut={() => setHover(false)}
-        onMouseOver={() => setHover(true)}
-      >
-        {hover ? (
-          <BsFillPlusCircleFill className="my-auto" size={20} />
-        ) : (
-          <AiOutlinePlus className="my-auto" size={20} />
-        )}
-        <span> Add task</span>
-      </div>
+      {addTask ? (
+        <AddTask setAddTask={setAddTask} />
+      ) : (
+        <div
+          className="add-task mt-4"
+          onMouseOut={() => setHover(false)}
+          onMouseOver={() => setHover(true)}
+          onClick={() => setAddTask(true)}
+        >
+          {hover ? (
+            <BsFillPlusCircleFill className="my-auto" size={20} />
+          ) : (
+            <AiOutlinePlus className="my-auto" size={20} />
+          )}
+          <span> Add task</span>
+        </div>
+      )}
       <div></div>
 
       <div

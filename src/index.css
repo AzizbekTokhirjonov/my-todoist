@@ -56,3 +56,39 @@ input.search-input {
 a span {
   color: black;
 }
+
+#add-task-card {
+  background-color: white;
+  border: 1px solid rgb(121, 118, 118);
+  border-radius: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+#add-task-card .content {
+  padding: 1rem;
+}
+#add-task-card .content div.title input {
+  font-size: 14px;
+}
+#add-task-card .content div.description textarea {
+  font-size: 13px;
+}
+
+#add-task-card .actions {
+  margin-top: -20px;
+  margin-bottom: 5px;
+}
+
+#add-task-card .actions .btns button {
+  margin: 5px;
+}
+#add-task-card .actions .icons svg {
+  margin: 5px;
+  height: 25px;
+  width: 25px;
+  padding: 2px;
+}
+#add-task-card .actions .icons svg:hover {
+  background-color: rgb(224, 222, 222);
+}

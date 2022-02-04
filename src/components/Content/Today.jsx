@@ -3,9 +3,11 @@ import { FaRegCommentAlt } from "react-icons/fa";
 
 import { BsThreeDots, BsSliders, BsFillPlusCircleFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
+import AddTask from "./AddTask";
 const Today = () => {
   const [hover, setHover] = useState(false);
   const [section, setSection] = useState("");
+  const [addTask, setAddTask] = useState(false);
   return (
     <div id="inbox" className="mx-auto">
       <div className="d-flex justify-content-between">
@@ -21,18 +23,23 @@ const Today = () => {
           </ul>
         </div>
       </div>
-      <div
-        className="add-task mt-4"
-        onMouseOut={() => setHover(false)}
-        onMouseOver={() => setHover(true)}
-      >
-        {hover ? (
-          <BsFillPlusCircleFill className="my-auto" size={20} />
-        ) : (
-          <AiOutlinePlus className="my-auto" size={20} />
-        )}
-        <span> Add task</span>
-      </div>
+      {addTask ? (
+        <AddTask setAddTask={setAddTask} />
+      ) : (
+        <div
+          className="add-task mt-4"
+          onMouseOut={() => setHover(false)}
+          onMouseOver={() => setHover(true)}
+          onClick={() => setAddTask(true)}
+        >
+          {hover ? (
+            <BsFillPlusCircleFill className="my-auto" size={20} />
+          ) : (
+            <AiOutlinePlus className="my-auto" size={20} />
+          )}
+          <span> Add task</span>
+        </div>
+      )}
     </div>
   );
 };
