@@ -5,6 +5,8 @@ import SideMenu from "./Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import ToolbarMenu from "./ToolbarMenu";
+import MainContent from "../Content/MainContent";
+
 const drawerWidth = 300;
 
 const AppBar = styled(MuiAppBar, {
@@ -25,9 +27,8 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const PrimarySearchAppBar = () => {
+const PrimarySearchAppBar = ({ open, setOpen }) => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -37,17 +38,23 @@ const PrimarySearchAppBar = () => {
     setOpen(false);
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#424242" }}>
-        <ToolbarMenu open={open} handleDrawerOpen={handleDrawerOpen} />
-      </AppBar>
-      <SideMenu
-        open={open}
-        handleDrawerClose={handleDrawerClose}
-        theme={theme}
-      />
-    </Box>
+    <div>
+      <Box sx={{ flexGrow: 1 }}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          open={open}
+          sx={{ backgroundColor: "#424242", height: "64px" }}
+        >
+          <ToolbarMenu open={open} handleDrawerOpen={handleDrawerOpen} />
+        </AppBar>
+        <SideMenu
+          open={open}
+          handleDrawerClose={handleDrawerClose}
+          theme={theme}
+        />
+      </Box>
+    </div>
   );
 };
 export default PrimarySearchAppBar;

@@ -1,17 +1,14 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+a {
+  text-decoration: none;
 }
-
+#drawer-list a {
+  text-decoration: none;
+}
 input.search-input {
   font-family: FontAwesome;
 }
@@ -24,4 +21,74 @@ input.search-input {
 
 #asynchronous-demo-label:focus {
   color: yellow;
+}
+
+#main-content {
+  margin: auto 0;
+  margin-top: 100px;
+}
+#main-content #inbox {
+  width: 50%;
+}
+#main-content #inbox h4 {
+  font-weight: bold;
+}
+#main-content #inbox .items ul li {
+  list-style: none;
+  padding-right: 20px;
+}
+#main-content #inbox .items ul li span {
+  font-size: 13px;
+}
+#main-content #inbox div.add-task span {
+  font-size: 16px;
+  line-height: 1.2;
+  margin-left: 5px;
+}
+
+#main-content #inbox div.add-section {
+  opacity: 0;
+}
+#main-content #inbox div.add-section:hover {
+  opacity: 1;
+}
+
+a span {
+  color: black;
+}
+
+#add-task-card {
+  background-color: white;
+  border: 1px solid rgb(121, 118, 118);
+  border-radius: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+#add-task-card .content {
+  padding: 1rem;
+}
+#add-task-card .content div.title input {
+  font-size: 14px;
+}
+#add-task-card .content div.description textarea {
+  font-size: 13px;
+}
+
+#add-task-card .actions {
+  margin-top: -20px;
+  margin-bottom: 5px;
+}
+
+#add-task-card .actions .btns button {
+  margin: 5px;
+}
+#add-task-card .actions .icons svg {
+  margin: 5px;
+  height: 25px;
+  width: 25px;
+  padding: 2px;
+}
+#add-task-card .actions .icons svg:hover {
+  background-color: rgb(224, 222, 222);
 }
