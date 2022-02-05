@@ -3,7 +3,7 @@ import { FaRegCommentAlt } from "react-icons/fa";
 
 import { BsThreeDots, BsSliders, BsFillPlusCircleFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
-import AddTask from "./AddTask";
+import AddTask from "./Task/AddTask";
 const Today = () => {
   const [hover, setHover] = useState(false);
   const [section, setSection] = useState("");

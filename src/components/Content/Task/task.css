@@ -1,0 +1,36 @@
+.tasks-wrapper{
+    color: rgb(39, 38, 38);
+}
+.tasks-wrapper div {
+    margin-bottom: 5px;
+}
+
+.tasks-wrapper div div.text div.form-check{
+    font-size: 15px;
+}
+.tasks-wrapper div div.text div.additional-text{
+    font-size: 13px;
+   
+}
+
+
+.tasks-wrapper div div.icons svg{
+    margin: 5px;
+    font-size: 22px;
+    padding: 2px;
+}
+
+/* .tasks-wrapper div:hover +  {
+    display: block;
+} */
+span {
+    padding-right: 5px;
+}
+
+
+hr {
+    border-color: #e9e4e4;
+    border-style: solid none;
+    border-width: 1px 0;
+   
+}
