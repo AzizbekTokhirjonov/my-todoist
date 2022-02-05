@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import {useSelector, useDispatch} from "react-redux";
 import Modal from '@mui/material/Modal';
 import AddTask from './AddTask';

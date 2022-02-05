@@ -15,9 +15,9 @@ const dispatch = useDispatch()
     <div className="d-flex justify-content-between py-2 wrapper" onMouseOut={() => setHover(false) }
     onMouseOver={() => setHover(true)} >
         <div className="text" >
-            <div class="form-check" onClick={()=>dispatch(handleOpen(task))}>
+            <div class="form-check" >
                 <input className="form-check-input" type="radio" name={task.title} id={task.id}/>
-                <label className="form-check-label" for={task.id}>
+                <label onClick={()=>dispatch(handleOpen(task))} className="form-check-label" for={task.id}>
                 {task.title}
                 </label>
             </div>
