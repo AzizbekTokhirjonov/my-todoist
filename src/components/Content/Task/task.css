@@ -10,6 +10,10 @@
 }
 .tasks-wrapper div div.text div.additional-text{
     font-size: 13px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 400px;
    
 }
 
@@ -19,7 +23,9 @@
     font-size: 22px;
     padding: 2px;
 }
-
+.tasks-wrapper div div.icons svg:hover{
+    background-color: rgb(224, 222, 222);
+}
 /* .tasks-wrapper div:hover +  {
     display: block;
 } */

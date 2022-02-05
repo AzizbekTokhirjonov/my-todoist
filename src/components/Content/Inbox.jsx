@@ -6,7 +6,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import AddTask from "./Task/AddTask";
 import CheckTask from "./Task/CheckTask"
 import "./Task/task.css"
-
+import CustomModal from "./Task/CustomModal";
 
 const Inbox = () => {
   const [hover, setHover] = useState(false);
@@ -48,6 +48,14 @@ const tasks = [
     priority: "P1",
     label: ""
   },
+  {
+    title: "Do something",
+    id: 1,
+    description: "",
+    dueDate: '',
+    priority: "P5",
+    label: "",
+  },
 ]
 
 
@@ -66,6 +74,7 @@ const tasks = [
 
   return (
     <div id="inbox" className="mx-auto">
+      <CustomModal/>
       <div className="d-flex justify-content-between">
         <div className="title">
           <h4>Inbox</h4>
@@ -86,7 +95,8 @@ const tasks = [
           </ul>
         </div>
       </div>
-      <div>
+    
+      
       <div className="tasks-wrapper">
         {tasks.map((task) => (
           <>
@@ -96,7 +106,8 @@ const tasks = [
           
         ))}
       </div>
-      </div>
+
+   
       {addTask ? (
         <AddTask setAddTask={setAddTask} />
       ) : (

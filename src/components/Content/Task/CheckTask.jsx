@@ -21,12 +21,11 @@ export default function CheckTask({task}) {
               {task.title}
             </label>
         </div>
-            <div className='additional-text'>{task.description}</div>
-            <div className='additional-text'>
-                <span className='text-danger'> <BiCalendarAlt/> {task.dueDate}</span>
-
-                <span className='text-warning'> <BiLabel/> {task.label}</span>
-            </div>   
+            {task.description && <div className='additional-text text-muted'>{task.description}</div>}
+            {task.label || task.dueDate ? <div className='additional-text'>
+                {task.dueDate && <span className='text-danger'> <BiCalendarAlt/> {task.dueDate}</span>}
+                {task.label && <span className='text-warning'> <BiLabel/> {task.label}</span>}
+            </div> : "" }
         </div>
            <div className="icons d-flex">
            <BiEditAlt style={hover ? {opacity: 1} : {opacity: 0}}/>

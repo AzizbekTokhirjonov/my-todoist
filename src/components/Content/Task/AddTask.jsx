@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
-const AddTask = ({ setAddTask }) => {
+const AddTask = ({ setAddTask, title= "", description="", editing = false }) => {
   return (
     <div>
       <div id="add-task-card">
@@ -14,6 +14,7 @@ const AddTask = ({ setAddTask }) => {
             <TextField
               fullWidth
               variant="standard"
+              value={title}
               placeholder="e.g., Finish info component by evening"
               InputProps={{ disableUnderline: true }}
               style={{ fontSize: "12px" }}
@@ -23,6 +24,7 @@ const AddTask = ({ setAddTask }) => {
             <TextField
               multiline
               minRows={2}
+              value={description}
               placeholder="Description"
               variant="standard"
               fullWidth
@@ -89,7 +91,7 @@ const AddTask = ({ setAddTask }) => {
           className="btn btn-sm btn-secondary"
           onClick={() => setAddTask(false)}
         >
-          Add Task
+          {editing ? 'Save' : 'Add task'}
         </button>
         <button
           className="btn btn-sm btn-light m-2"
