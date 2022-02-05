@@ -1,13 +1,13 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-
+import {useSelector, useDispatch} from "react-redux";
 import Modal from '@mui/material/Modal';
 import AddTask from './AddTask';
 import { BiEnvelope } from "react-icons/bi";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
+import {handleCLose} from "../../../redux/actions.js"
 
 const style = {
     position: 'absolute',
@@ -22,10 +22,14 @@ const style = {
     p: 4,
   };
 
-const CustomModal = ({category}) => {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+const CustomModal = ({task }) => {
+    // const [open, setOpen] = React.useState(false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
+    const {open, openTask} = useSelector((state)=> state.modalState)
+console.log(open.open)
+    const dispatch = useDispatch()
+    
     const [value, setValue] = React.useState(2);
 
   const handleChange = (event, newValue) => {
@@ -34,10 +38,12 @@ const CustomModal = ({category}) => {
 
   return (
     <div> 
-        <Button onClick={handleOpen}>Open modal</Button>
+        
         <Modal
         open={open}
-        onClose={handleClose}
+        onClose={()=>{
+          dispatch(handleCLose())
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         >
@@ -46,14 +52,23 @@ const CustomModal = ({category}) => {
                 <BiEnvelope/> Inbox
             </div>
             <div>
-                <AddTask editing={true} title='Do something' description='Finish the project'/>
+                <AddTask editing={true} title={openTask.title} description={openTask.description}/>
             </div>
             <div>
-            <Tabs value={value} onChange={handleChange} aria-label="disabled tabs example" centered>
-                <Tab label="Sub-tasks" />
-                <Tab label="Comments"/>
-                <Tab label="Activity" />
-            </Tabs>
+                <Tabs value={value} onChange={handleChange} aria-label="disabled tabs example" centered>
+                    <Tab label="Sub-tasks" />
+                    <Tab label="Comments"/>
+                    <Tab label="Activity" />
+                </Tabs>
+            </div>
+            <div className='sub-tasks'>
+
+            </div>
+            <div className='sub-tasks'>
+
+            </div>
+            <div className='sub-tasks'>
+
             </div>
         </Box>
         </Modal>

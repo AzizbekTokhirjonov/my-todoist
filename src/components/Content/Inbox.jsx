@@ -74,7 +74,7 @@ const tasks = [
 
   return (
     <div id="inbox" className="mx-auto">
-      <CustomModal/>
+      <CustomModal />
       <div className="d-flex justify-content-between">
         <div className="title">
           <h4>Inbox</h4>
