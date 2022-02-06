@@ -7,10 +7,29 @@ import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 const AddTask = ({
   setAddTask,
+  task = { title: "", description: "" },
+  setEdit,
   title = "",
-  description = "",
-  editing = false,
 }) => {
+  let buttonTitle;
+  switch (title) {
+    case "checkTask": {
+      buttonTitle = "Save";
+      break;
+    }
+    case "subPanel": {
+      buttonTitle = "Add sub-task";
+      break;
+    }
+    case "customModal": {
+      buttonTitle = "Save";
+      break;
+    }
+    default: {
+      buttonTitle = "Add task";
+      break;
+    }
+  }
   return (
     <div>
       <div id="add-task-card">
@@ -19,7 +38,7 @@ const AddTask = ({
             <TextField
               fullWidth
               variant="standard"
-              value={title}
+              value={task.title}
               placeholder="e.g., Finish info component by evening"
               InputProps={{ disableUnderline: true }}
               style={{ fontSize: "12px" }}
@@ -29,7 +48,7 @@ const AddTask = ({
             <TextField
               multiline
               minRows={2}
-              value={description}
+              value={task.description}
               placeholder="Description"
               variant="standard"
               fullWidth
@@ -94,14 +113,27 @@ const AddTask = ({
       <div>
         <button
           className="btn btn-sm btn-secondary"
-          onClick={() => setAddTask(false)}
+          onClick={() =>
+            title === "checkTask" || title === "customModal"
+              ? setEdit(false)
+              : setAddTask(false)
+          }
         >
-          {editing ? "Save" : "Add task"}
+          {buttonTitle}
+          {/* {title === "edit"
+            ? "Save"
+            : title === "subPanel"
+            ? "Add sub-task"
+            : "Add task"} */}
         </button>
         <button
           className="btn btn-sm btn-light m-2"
           style={{ borderColor: "#ccc" }}
-          onClick={() => setAddTask(false)}
+          onClick={() =>
+            title === "checkTask" || title === "customModal"
+              ? setEdit(false)
+              : setAddTask(false)
+          }
         >
           Cancel
         </button>

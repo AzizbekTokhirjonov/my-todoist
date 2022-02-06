@@ -4,9 +4,10 @@ import TextField from "@mui/material/TextField";
 import { BsThreeDots, BsSliders, BsFillPlusCircleFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import AddTask from "./Task/AddTask";
-import CheckTask from "./Task/CheckTask"
-import "./Task/task.css"
-import CustomModal from "./Task/CustomModal";
+import CheckTask from "./Task/CheckTask";
+import "./Task/task.css";
+import CustomModal from "./Task/Modal/CustomModal";
+import AddTaskIcon from "./Task/AddTaskIcon";
 
 const Inbox = () => {
   const [hover, setHover] = useState(false);
@@ -15,49 +16,49 @@ const Inbox = () => {
   const sections = [];
   // const [value, setValue] = React.useState('female');
   // const [tasks, setTasks] = useState([])
-const tasks = [
-  {
-    title: "Do something",
-    id: 1,
-    description: "Something to do",
-    dueDate: 'tomorrow',
-    priority: "P1",
-    label: "idle",
-  },
-  {
-    id:2,
-    title: "Build task",
-    description: "Build task app",
-    dueDate: 'next monday',
-    priority: "P3",
-    label: "coding"
-  },
-  {
-    id:4,
-    title: "Check Component",
-    description: "check components for erros",
-    dueDate: 'today',
-    priority: "P1",
-    label: ""
-  },
-  {
-    id:5,
-    title: "Lorem ipsum",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    dueDate: 'today',
-    priority: "P1",
-    label: ""
-  },
-  {
-    title: "Do something",
-    id: 1,
-    description: "",
-    dueDate: '',
-    priority: "P5",
-    label: "",
-  },
-]
-
+  const tasks = [
+    {
+      title: "Do something",
+      id: 1,
+      description: "Something to do",
+      dueDate: "tomorrow",
+      priority: "P1",
+      label: "idle",
+    },
+    {
+      id: 2,
+      title: "Build task",
+      description: "Build task app",
+      dueDate: "next monday",
+      priority: "P3",
+      label: "coding",
+    },
+    {
+      id: 4,
+      title: "Check Component",
+      description: "check components for erros",
+      dueDate: "today",
+      priority: "P1",
+      label: "",
+    },
+    {
+      id: 5,
+      title: "Lorem ipsum",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      dueDate: "today",
+      priority: "P1",
+      label: "",
+    },
+    {
+      title: "Do something",
+      id: 6,
+      description: "",
+      dueDate: "",
+      priority: "P5",
+      label: "",
+    },
+  ];
 
   const addSection = (e) => {
     e.preventDefault();
@@ -70,7 +71,6 @@ const tasks = [
       addSection(e);
     }
   };
- 
 
   return (
     <div id="inbox" className="mx-auto">
@@ -95,37 +95,25 @@ const tasks = [
           </ul>
         </div>
       </div>
-    
-      
+
       <div className="tasks-wrapper">
         {tasks.map((task) => (
-          <>
-          <CheckTask key={task.id} task={task}/>
-          <hr  />
-          </>
-          
+          <React.Fragment key={task.id}>
+            <CheckTask task={task} />
+            <hr />
+          </React.Fragment>
         ))}
       </div>
 
-   
       {addTask ? (
         <AddTask setAddTask={setAddTask} />
       ) : (
-        <div
-          className="add-task mt-4"
-          onMouseOut={() => setHover(false)}
-          onMouseOver={() => setHover(true)}
-          onClick={() => setAddTask(true)}
-        >
-          {hover ? (
-            <BsFillPlusCircleFill className="my-auto" size={20} />
-          ) : (
-            <AiOutlinePlus className="my-auto" size={20} />
-          )}
-          <span> Add task</span>
-        </div>
+        <AddTaskIcon
+          setAddTask={setAddTask}
+          setHover={setHover}
+          hover={hover}
+        />
       )}
-      <div></div>
 
       <div
         className="add-section mt-4"
