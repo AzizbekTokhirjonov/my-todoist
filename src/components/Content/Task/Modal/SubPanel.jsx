@@ -3,6 +3,8 @@ import AddTaskIcon from "../AddTaskIcon";
 import AddTask from "../AddTask";
 import { Nav } from "react-bootstrap";
 import "./modal.css";
+
+
 const SubPanel = () => {
   const [addSubTask, setSubAddTask] = useState(false);
   const [hover, setHover] = useState(false);
@@ -12,7 +14,7 @@ const SubPanel = () => {
       <div className="tabs">
         <Nav justify variant="tabs" defaultActiveKey="/home">
           <Nav.Item>
-            <Nav.Link onClick={() => setOpenTab("sub-tasks")}>
+            <Nav.Link onClick={() => setOpenTab("sub-tasks")} eventKey="link-0">
               Sub-tasks
             </Nav.Link>
           </Nav.Item>
@@ -29,7 +31,7 @@ const SubPanel = () => {
         </Nav>
       </div>
       {openTab === "sub-tasks" ? (
-        <div>
+        <div className="sub-tasks panel-items">
           {addSubTask ? (
             <AddTask setAddTask={setSubAddTask} title="subPanel" />
           ) : (
@@ -42,9 +44,9 @@ const SubPanel = () => {
           )}
         </div>
       ) : openTab === "comments" ? (
-        <div className="comments">Comments</div>
+        <div className="comments panel-items">Comments</div>
       ) : (
-        <div className="activity">activity</div>
+        <div className="activity panel-items">activity</div>
       )}
     </div>
   );
