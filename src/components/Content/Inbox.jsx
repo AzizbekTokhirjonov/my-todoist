@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
 import TextField from "@mui/material/TextField";
-import { BsThreeDots, BsSliders, BsFillPlusCircleFill } from "react-icons/bs";
-import { AiOutlinePlus } from "react-icons/ai";
+import { BsThreeDots, BsSliders } from "react-icons/bs";
 import AddTask from "./Task/AddTask";
 import CheckTask from "./Task/CheckTask";
 import "./Task/task.css";
@@ -14,8 +13,7 @@ const Inbox = () => {
   const [section, setSection] = useState("");
   const [addTask, setAddTask] = useState(false);
   const sections = [];
-  // const [value, setValue] = React.useState('female');
-  // const [tasks, setTasks] = useState([])
+
   const tasks = [
     {
       title: "Do something",
@@ -24,6 +22,18 @@ const Inbox = () => {
       dueDate: "tomorrow",
       priority: "P1",
       label: "idle",
+      subTasks: [{
+        title: "Do another thing",
+        id: 1,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        dueDate: "sampleDueDate" 
+      },
+      {
+        title: "Do one more thing",
+        id: 2,
+        description: "",
+        dueDate: "" 
+      }]
     },
     {
       id: 2,
@@ -32,6 +42,12 @@ const Inbox = () => {
       dueDate: "next monday",
       priority: "P3",
       label: "coding",
+      subTasks: [{
+        title: "sample sub task",
+        id: 1,
+        description: "sample subtask description",
+        dueDate: "sampleDueDate"
+      },]
     },
     {
       id: 4,
@@ -40,6 +56,12 @@ const Inbox = () => {
       dueDate: "today",
       priority: "P1",
       label: "",
+      subTasks: [{
+        title: "sample sub task",
+        id: 1,
+        description: "sample subtask description",
+        dueDate: "sampleDueDate"
+      },]
     },
     {
       id: 5,
@@ -49,6 +71,12 @@ const Inbox = () => {
       dueDate: "today",
       priority: "P1",
       label: "",
+      subTasks: [{
+        title: "sample sub task",
+        id: 1,
+        description: "sample subtask description",
+        dueDate: "sampleDueDate"
+      },]
     },
     {
       title: "Do something",
@@ -57,6 +85,7 @@ const Inbox = () => {
       dueDate: "",
       priority: "P5",
       label: "",
+      subTasks: [{}]
     },
   ];
 

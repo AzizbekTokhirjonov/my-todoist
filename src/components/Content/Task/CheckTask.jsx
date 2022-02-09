@@ -7,6 +7,7 @@ import {
   BiCalendarAlt,
   BiLabel,
   BiCalendarEdit,
+  BiGitMerge
 } from "react-icons/bi";
 import "./task.css";
 import { useDispatch } from "react-redux";
@@ -56,26 +57,15 @@ export default function CheckTask({ task }) {
             )}
             {task.label || task.dueDate ? (
               <div className="additional-text">
-                {task.dueDate && (
-                  <span className="text-danger ">
-                    <BiCalendarAlt /> {task.dueDate}
-                  </span>
-                )}
-                {task.label && (
-                  <span className="text-warning">
-                    <BiLabel /> {task.label}
-                  </span>
-                )}
+                {task.subTasks.length > 0 && <span className="text-muted"><BiGitMerge/> 0/{task.subTasks.length}</span> }
+                {task.dueDate && <span className="text-danger"><BiCalendarAlt /> {task.dueDate}</span>}
+                {task.label && <span className="text-warning"><BiLabel /> {task.label}</span>}
               </div>
-            ) : (
-              ""
-            )}
+            ) : ""}
           </div>
           <div className="icons d-flex">
             <BiEditAlt
-              onClick={() => {
-                setEdit(true);
-              }}
+              onClick={() => setEdit(true)}
               style={hover ? { opacity: 1 } : { opacity: 0 }}
             />
             <BiCalendarEdit style={hover ? { opacity: 1 } : { opacity: 0 }} />

@@ -120,11 +120,6 @@ const AddTask = ({
           }
         >
           {buttonTitle}
-          {/* {title === "edit"
-            ? "Save"
-            : title === "subPanel"
-            ? "Add sub-task"
-            : "Add task"} */}
         </button>
         <button
           className="btn btn-sm btn-light m-2"

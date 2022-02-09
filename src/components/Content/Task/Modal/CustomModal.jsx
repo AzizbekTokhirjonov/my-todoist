@@ -50,7 +50,7 @@ const CustomModal = () => {
             <AddTask task={openTask} title="customModal" setEdit={setEdit} />
           ) : (
             <div>
-              <div>
+              <div onClick={() => setEdit(true)}>
                 <h4 className="font-weight-bold">
                   {openTask.title}
                 </h4>
@@ -58,8 +58,8 @@ const CustomModal = () => {
                   {openTask.description}
                 </p>
               </div>
-              <div>
 
+              <div>
                 {
                   openTask.dueDate ? <button className="btn btn-sm btn-outline-danger"  style={{ borderColor: "#ccc"}}><BiCalendarAlt/> {openTask.dueDate}</button> : <button className="btn btn-sm btn-light" style={{ borderColor: "#ccc" }}>
                   <BsCalendar2Event className="mr-1" /> Schedule

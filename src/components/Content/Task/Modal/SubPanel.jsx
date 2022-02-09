@@ -4,11 +4,15 @@ import AddTask from "../AddTask";
 import { Nav } from "react-bootstrap";
 import Comments from "./Comments/Comments";
 import "./modal.css";
+import SubTask from "../SubTask";
 
-const SubPanel = () => {
+const SubPanel = ({task}) => {
   const [addSubTask, setSubAddTask] = useState(false);
   const [hover, setHover] = useState(false);
   const [openTab, setOpenTab] = useState("sub-tasks");
+  
+  const { subTasks } = task
+
   return (
     <div className="mt-4">
       <div className="tabs">
@@ -32,6 +36,12 @@ const SubPanel = () => {
       </div>
       {openTab === "sub-tasks" ? (
         <div className="sub-tasks panel-items">
+          {subTasks.map((subTask) => (
+            <div key={subTask.id}>
+              <SubTask subTask={subTask}/>
+              <hr />
+            </div>
+          ))}
           {addSubTask ? (
             <AddTask setAddTask={setSubAddTask} title="subPanel" />
           ) : (
