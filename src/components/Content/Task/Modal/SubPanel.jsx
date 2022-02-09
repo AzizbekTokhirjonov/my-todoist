@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import AddTaskIcon from "../AddTaskIcon";
 import AddTask from "../AddTask";
 import { Nav } from "react-bootstrap";
+import Comments from "./Comments/Comments";
 import "./modal.css";
-
 
 const SubPanel = () => {
   const [addSubTask, setSubAddTask] = useState(false);
@@ -44,7 +44,9 @@ const SubPanel = () => {
           )}
         </div>
       ) : openTab === "comments" ? (
-        <div className="comments panel-items">Comments</div>
+        <div className="comments panel-items">
+          <Comments />
+        </div>
       ) : (
         <div className="activity panel-items">activity</div>
       )}
