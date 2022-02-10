@@ -106,3 +106,14 @@ hr {
   border-style: solid none;
   border-width: 0.5px 0;
 }
+
+ul.date-btns li {
+  font-size: 12px;
+  display: block;
+  text-align: start;
+  padding: 0;
+}
+
+ul.date-btns li:hover {
+  background-color: #ecebeb;
+}
