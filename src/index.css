@@ -101,3 +101,8 @@ a span {
 #add-task-card .actions .icons svg:hover {
   background-color: rgb(224, 222, 222);
 }
+hr {
+  border-color: #e9e4e4;
+  border-style: solid none;
+  border-width: 0.5px 0;
+}

@@ -1,12 +1,11 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+
 import Inbox from "./Inbox";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Today from "./Today";
 import Upcoming from "./Upcoming";
-import Filters from "./Filters";
+import Filters from "./FilterScreen/Filters";
 const MainContent = ({ open }) => {
   return (
     <React.Fragment>

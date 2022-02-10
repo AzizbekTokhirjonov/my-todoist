@@ -154,7 +154,7 @@ export default function SideMenu({ open, handleDrawerClose, theme }) {
             ) : (
               <Tooltip
                 placement="right"
-                title="Upcoming"
+                title="Filters & Labels"
                 TransitionComponent={Fade}
                 TransitionProps={{ timeout: 600 }}
               >

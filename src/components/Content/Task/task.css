@@ -33,13 +33,6 @@ span {
 }
 
 
-hr {
-    border-color: #e9e4e4;
-    border-style: solid none;
-    border-width: 1px 0;
-   
-}
-
 .sub-task-icons-wrapper svg {
     margin: 2px;
     font-size: 22px;

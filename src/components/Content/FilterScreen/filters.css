@@ -1,0 +1,24 @@
+#main-content {
+    margin: auto 0;
+    margin-top: 100px;
+  }
+  #main-content #filters {
+    width: 50%;
+  }
+  #main-content #filters h4, h5 {
+    font-weight: bold;
+  }
+  .accordion-wrapper svg{
+    margin: 5px;
+    height: 25px;
+    width: 25px;
+    padding: 2px;
+  }
+  .accordion-wrapper svg:hover{
+    background-color: rgb(224, 222, 222);
+
+  }
+
+  .accordion-wrapper .additional-text{
+      font-size: 14px;
+  }

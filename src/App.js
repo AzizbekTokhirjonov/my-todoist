@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppBar from "./components/Navbar/AppBar";
-import MainContent from "./components/Content/MainContent";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Today from "./components/Content/Today";
 import Inbox from "./components/Content/Inbox";
 import Upcoming from "./components/Content/Upcoming";
-import Filters from "./components/Content/Filters";
+import Filters from "./components/Content/FilterScreen/Filters";
+import MainContent from "./components/Content/MainContent";
 function App() {
   const [open, setOpen] = React.useState(false);
 
