@@ -22,3 +22,37 @@
   .accordion-wrapper .additional-text{
       font-size: 14px;
   }
+
+  .transitionsmodal-header, .transitionsmodal-footer{
+    position: absolute;
+    padding: 20px;
+    width: 100%;
+    font-size: 18px;
+    padding-bottom: 15px;
+  }
+  .transitionsmodal-header{
+    background-color: rgba(0,0,0,.03);
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0,0,0,.03);
+  }
+  .transitionsmodal-header svg:hover{
+    background-color: rgb(224, 222, 222);
+  }
+
+  .transitionsmodal-body{
+   padding: 80px 20px;
+
+  }
+  
+  .transitionsmodal-footer{
+   
+    border-top: 1px solid rgba(0,0,0,.03);
+    bottom: 0;
+    vertical-align: bottom;
+    display: flex;
+    justify-content: right;
+  }
+  .transitionsmodal-footer button {
+    margin-left: 15px;
+  }

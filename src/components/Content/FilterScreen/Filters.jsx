@@ -6,12 +6,13 @@ const filters = [ {title: 'Assigned to me', color: 'blue'} , {title: 'High prior
 const Labels = [{title: 'blue', color: 'blue'}, {title: 'green', color: "green"}]
 
 const Filters = () => {
+
   return (
     <div id='filters' className='mx-auto'>
         <div className="title">
           <h4>Filters & Labels</h4>
         </div>
-
+        
       <div className=''>
           <Accordion filters={filters} labels={Labels}/>
       </div>
