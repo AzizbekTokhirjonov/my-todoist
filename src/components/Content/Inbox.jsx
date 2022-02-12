@@ -21,7 +21,7 @@ const Inbox = () => {
       description: "Something to do",
       dueDate: "tomorrow",
       priority: "P1",
-      label: "idle",
+      label: 'idle',
       subTasks: [{
         title: "Do another thing",
         id: 1,
