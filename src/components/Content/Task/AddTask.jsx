@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { BiLabel } from "react-icons/bi";
 import { BsAlarm, BsFlag, BsCalendar2Event } from "react-icons/bs";
@@ -5,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
+import CustomDatePicker from "../CustomDatePicker";
 import Menu from "../Menu"
 
 const AddTask = ({
@@ -13,7 +15,7 @@ const AddTask = ({
   setEdit,
   title = "",
 }) => {
-
+  const [showCalendar, setShowCalendar] = useState(true);
   const [taskTitle, setTaskTitle] = useState(task.title || '')
   const [description, setDescription] = useState(task.description || '')
   const [taskLabel, setTaskLabel] = useState(task.label || '')
@@ -78,12 +80,28 @@ const AddTask = ({
         <div className="actions">
           <div className="d-flex justify-content-between">
             <div className="btns">
-              <button
-                className="btn btn-sm btn-light"
-                style={{ borderColor: "#ccc" }}
-              >
-                <BsCalendar2Event className="mr-1" /> Schedule
-              </button>
+              {!showCalendar ? (
+                <div className="ml-2">
+                  <CustomDatePicker
+                    setShowCalendar={setShowCalendar}
+                    showCalendar={showCalendar}
+                    task={task}
+                  />
+                </div>
+              ) : (
+                <label
+                  onClick={() => setShowCalendar(!showCalendar)}
+                  htmlFor="date-picker"
+                >
+                  <button
+                    className="btn btn-sm btn-light"
+                    style={{ borderColor: "#ccc" }}
+                  >
+                    <BsCalendar2Event className="mr-1" /> Schedule
+                  </button>
+                </label>
+              )}
+
               <Tooltip
                 TransitionComponent={Fade}
                 TransitionProps={{ timeout: 600 }}

@@ -76,23 +76,6 @@ export default function CheckTask({ task }) {
                     showCalendar={showCalendar}
                     task={task}
                   />
-                  {!showCalendar && (
-                    <div className="d-flex">
-                      <button
-                        onClick={() => setShowCalendar(!showCalendar)}
-                        className="btn btn-dark btn-sm mr-2"
-                      >
-                        Save
-                      </button>
-                      <button
-                        onClick={() => setShowCalendar(!showCalendar)}
-                        className="btn btn-sm btn-light "
-                        style={{ borderColor: "#ccc" }}
-                      >
-                        Close
-                      </button>
-                    </div>
-                  )}
                 </span>
               ) : (
                 <label
