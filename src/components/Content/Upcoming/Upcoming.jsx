@@ -33,7 +33,6 @@ const Upcoming = () => {
 
   const refs = dates.reduce((acc, value) => {
     acc[value.id] = React.createRef();
-    console.log(value);
     return acc;
   }, {});
 
@@ -54,7 +53,7 @@ const Upcoming = () => {
       </div>
       <ul>
         {dates.length > 1 &&
-          dates.map((date) => (
+          dates.slice(0, 30).map((date) => (
             <li
               id={format(value, "dd/MM/yyyy")}
               ref={refs[date.id]}
@@ -82,6 +81,7 @@ const Upcoming = () => {
               )}
             </li>
           ))}
+        <div className="show-more btn btn-light my-5">Show More...</div>
       </ul>
     </div>
   );
