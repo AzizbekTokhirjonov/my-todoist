@@ -4,9 +4,9 @@ import AppBar from "./components/Navbar/AppBar";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Today from "./components/Content/Today";
 import Inbox from "./components/Content/Inbox";
-import Upcoming from "./components/Content/Upcoming";
+import Upcoming from "./components/Content/Upcoming/Upcoming";
 import Filters from "./components/Content/FilterScreen/Filters";
-import MainContent from "./components/Content/MainContent";
+// import MainContent from "./components/Content/MainContent";
 function App() {
   const [open, setOpen] = React.useState(false);
 

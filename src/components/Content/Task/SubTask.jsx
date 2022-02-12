@@ -50,21 +50,6 @@ export default function SubTask({ subTask }) {
                   showCalendar={showCalendar}
                   task={subTask}
                 />
-                <div className="d-flex mt-2">
-                  <button
-                    onClick={() => setShowCalendar(!showCalendar)}
-                    className="btn btn-dark btn-sm mr-2"
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => setShowCalendar(!showCalendar)}
-                    className="btn btn-sm btn-light "
-                    style={{ borderColor: "#ccc" }}
-                  >
-                    Close
-                  </button>
-                </div>
               </div>
             ) : (
               <div className="additional-text">
@@ -73,7 +58,6 @@ export default function SubTask({ subTask }) {
                     htmlFor="date-picker"
                     onClick={() => setShowCalendar(!showCalendar)}
                   >
-                    {" "}
                     <span className="text-danger ">
                       <BiCalendarAlt /> {dueDate}
                     </span>
@@ -83,7 +67,6 @@ export default function SubTask({ subTask }) {
                     htmlFor="date-picker"
                     onClick={() => setShowCalendar(!showCalendar)}
                   >
-                    {" "}
                     <span className="text-danger ">
                       <BiCalendarAlt /> Schedule
                     </span>

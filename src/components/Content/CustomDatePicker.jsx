@@ -81,6 +81,21 @@ export default function CustomDatePicker({
                   showCalendar ? { display: "none" } : { display: "block" }
                 }
               />
+              <div className="d-flex mt-2">
+                <button
+                  onClick={() => setShowCalendar(!showCalendar)}
+                  className="btn btn-dark btn-sm mr-2"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setShowCalendar(!showCalendar)}
+                  className="btn btn-sm btn-light "
+                  style={{ borderColor: "#ccc" }}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           )}
         />
