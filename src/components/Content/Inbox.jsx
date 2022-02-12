@@ -14,6 +14,7 @@ const Inbox = () => {
   const [addTask, setAddTask] = useState(false);
   const sections = [];
 
+
   const addSection = (e) => {
     e.preventDefault();
     sections.push(section);

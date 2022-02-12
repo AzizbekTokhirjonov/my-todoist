@@ -22,7 +22,7 @@ const style = {
 
 };
 
-export default function TransitionsModal({children, openModal, closeModal}) {
+export default function TransitionsModal({children, openModal, closeModal, title}) {
     const [open, setOpen] = useState(openModal);
     const handleClose = () => closeModal(false);
 
@@ -46,9 +46,9 @@ export default function TransitionsModal({children, openModal, closeModal}) {
             <Fade in={open}>
                 <Box sx={style}>
                     <div className="transitionsmodal-header" >
-                        <span>title</span>
-                        <Tooltip title="Click here to find out more how to use this functionality" placement="right">
-                            <BsQuestionCircle/>
+                        <span>{title}</span>
+                        <Tooltip title="Click to explore this functionality" placement="right-start">
+                            <span><BsQuestionCircle/></span>
                         </Tooltip>
                     </div>
                     
@@ -58,8 +58,8 @@ export default function TransitionsModal({children, openModal, closeModal}) {
                 
 
                     <div className="transitionsmodal-footer" >
-                        <button style={{ borderColor: "#ccc" }} type="button" class="btn btn-light">Cancel</button>
-                        <button type="button" class="btn btn-dark" disabled>Add</button>    
+                        <button style={{ borderColor: "#ccc" }} type="button" className="btn btn-light" onClick={handleClose}>Cancel</button>
+                        <button type="button" className="btn btn-dark" disabled>Add</button>    
                         
                     </div>
                 </Box>
