@@ -2,32 +2,33 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
+import DateRangePicker from "@mui/lab/DateRangePicker";
+import Box from "@mui/material/Box";
 
 export default function UpcomingDatePicker({
   value,
   setValue,
   maxDate,
   minDate,
-  handleScroll,
-  format,
-  inputRef,
-  // executeScroll,
 }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker
-        label="Pick a date"
-        value={value}
+      <DateRangePicker
+        startText="Tasks date"
+        endText="Tasks date"
         maxDate={maxDate}
         minDate={minDate}
-        autoOk={true}
+        value={value}
         onChange={(newValue) => {
           setValue(newValue);
-          // handleScroll(format(newValue, "dd/MM/yyyy EEEE"));
-          handleScroll(format(newValue, "dd/MM/yyyy"));
         }}
-        renderInput={(params) => <TextField {...params} ref={inputRef} />}
+        renderInput={(startProps, endProps) => (
+          <React.Fragment>
+            <TextField {...startProps} />
+            <Box sx={{ mx: 2 }}> to </Box>
+            <TextField {...endProps} />
+          </React.Fragment>
+        )}
       />
     </LocalizationProvider>
   );

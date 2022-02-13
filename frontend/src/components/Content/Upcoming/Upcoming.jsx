@@ -12,49 +12,55 @@ const maxDate = new Date(tomorrow.setDate(tomorrow.getDate() + 730));
 const Upcoming = () => {
   const [hover, setHover] = useState(false);
   const [addTask, setAddTask] = useState(false);
-  const [value, setValue] = useState(today);
+  const [value, setValue] = React.useState([null, null]);
   const [dates, setDates] = useState([]);
-  useEffect(() => {
-    const daysBetween =
-      (maxDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
+
+  const showDaysBetween = (start, end) => {
+    const daysBetween = (end.getTime() - start.getTime()) / (1000 * 3600 * 24);
     const arr = [];
 
     for (let i = 0; i <= daysBetween; i++) {
-      const temp = new Date();
-      temp.setDate(today.getDate() + i);
-      arr.push(format(temp, "dd/MM/yyyy EEEE"));
+      const temp = new Date(start);
+      arr.push(format(temp.setDate(start.getDate() + i), "dd/MM/yyyy EEEE"));
     }
 
     setDates(arr);
-    console.log(format(today, "dd/MM/yyyy"));
+    console.log(format(start, "dd/MM/yyyy"));
+  };
+
+  useEffect(() => {
+    showDaysBetween(today, maxDate);
   }, []);
 
-  const refs = dates.reduce((acc, value) => {
-    acc[value.id] = React.createRef();
-    return acc;
-  }, {});
-
-  const handleScroll = (id) =>
-    refs[id].current.scrollIntoView({ behavior: "smooth", block: "start" });
+  useEffect(() => {
+    if (value[0] !== null && value[1] !== null) {
+      const start = new Date(value[0]);
+      const end = new Date(value[1]);
+      showDaysBetween(start, end);
+    }
+  }, [value]);
 
   return (
     <div id="upcoming" className="mx-auto">
+      <div className="mb-4">
+        <small className="text-muted mb-4">
+          See upcoming tasks within 30 days or select the date range
+          yourself.....
+        </small>
+      </div>
       <div className="date-header">
         <UpcomingDatePicker
           value={value}
           setValue={setValue}
           minDate={today}
           maxDate={maxDate}
-          handleScroll={handleScroll}
-          format={format}
         />
       </div>
       <ul>
         {dates.length > 1 &&
           dates.slice(0, 30).map((date) => (
             <li
-              id={format(value, "dd/MM/yyyy")}
-              ref={refs[date.id]}
+              // id={format(value, "dd/MM/yyyy")}
               className="mt-4"
               key={date}
             >
@@ -79,7 +85,6 @@ const Upcoming = () => {
               )}
             </li>
           ))}
-        <div className="show-more btn btn-light my-5">Show More...</div>
       </ul>
     </div>
   );
