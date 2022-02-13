@@ -23,7 +23,7 @@ export default function UpcomingDatePicker({
         minDate={minDate}
         autoOk={true}
         onChange={(newValue) => {
-          setValue(newValue);cd 
+          setValue(newValue);
           // handleScroll(format(newValue, "dd/MM/yyyy EEEE"));
           handleScroll(format(newValue, "dd/MM/yyyy"));
         }}
