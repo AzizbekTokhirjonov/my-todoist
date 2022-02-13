@@ -21,10 +21,11 @@ export default function UpcomingDatePicker({
         value={value}
         maxDate={maxDate}
         minDate={minDate}
+        autoOk={true}
         onChange={(newValue) => {
-          setValue(newValue);
+          setValue(newValue);cd 
           // handleScroll(format(newValue, "dd/MM/yyyy EEEE"));
-          handleScroll(`myrefList ${8}`);
+          handleScroll(format(newValue, "dd/MM/yyyy"));
         }}
         renderInput={(params) => <TextField {...params} ref={inputRef} />}
       />

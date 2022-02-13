@@ -36,7 +36,7 @@ export default function CustomDatePicker({
           onChange={handleChange}
           renderInput={(params) => (
             <div>
-              <ul className="date-btns">
+              <ul className="date-btns mb-3">
                 <li
                   className="btn"
                   onClick={() => {

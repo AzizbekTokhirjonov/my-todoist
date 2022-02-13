@@ -8,7 +8,6 @@ import AddTaskIcon from "../Task/AddTaskIcon";
 import UpcomingDatePicker from "./UpcomingDatePicker";
 const today = new Date();
 const tomorrow = new Date(today);
-const days = [];
 const maxDate = new Date(tomorrow.setDate(tomorrow.getDate() + 730));
 const Upcoming = () => {
   const [hover, setHover] = useState(false);
@@ -16,10 +15,8 @@ const Upcoming = () => {
   const [value, setValue] = useState(today);
   const [dates, setDates] = useState([]);
   useEffect(() => {
-    const start = new Date(format(today, "dd/MM/yyyy"));
-    const end = new Date(format(maxDate, "dd/MM/yyyy"));
-
-    const daysBetween = (end.getTime() - start.getTime()) / (1000 * 3600 * 24);
+    const daysBetween =
+      (maxDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
     const arr = [];
 
     for (let i = 0; i <= daysBetween; i++) {
@@ -29,6 +26,7 @@ const Upcoming = () => {
     }
 
     setDates(arr);
+    console.log(format(today, "dd/MM/yyyy"));
   }, []);
 
   const refs = dates.reduce((acc, value) => {
