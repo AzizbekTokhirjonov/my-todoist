@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import isEmail from "validator/lib/isEmail";
+import isEmail from "validator/lib/isEmail.js";
 
 const { Schema, model } = mongoose;
 
@@ -11,6 +11,7 @@ const UserSchema = new Schema(
     title: { type: String, required: true },
     email: {
       type: String,
+      unique: true,
       required: [true, "Please enter your email"],
       lowercase: true,
       validate: [isEmail, "Please enter a valid email"],

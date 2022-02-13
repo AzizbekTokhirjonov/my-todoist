@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-const TaskSchema = new Schema(
+const ProjectSchema = new Schema(
   {
     name: { type: String, required: true },
     color: { type: String, required: true },
     favorite: { type: Boolean, default: false },
-    taskList: [{ type: Schema.Types.ObjectId, ref: "Task" }],
-    projectOwnerId: {
+    tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+    projectOwner: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -19,4 +19,4 @@ const TaskSchema = new Schema(
   { timestamps: true }
 );
 
-export default model("Task", TaskSchema);
+export default model("Project", ProjectSchema);
