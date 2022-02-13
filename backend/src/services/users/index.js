@@ -1,9 +1,38 @@
 import express from "express";
 import UserModel from "./scheme.js";
 import createHttpError from "http-errors";
-
+import {
+  createToken,
+  handleErrors,
+  maxAge,
+} from "../../controllers/authControllers.js";
+import { requireAuth, checkUser } from "../../middleware/authMiddleware.js";
 const router = express.Router();
 
+//Login
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await UserModel.login(email, password);
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(200).send({ user: user._id });
+  } catch (error) {
+    console.log(error);
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
+  }
+});
+
+//LOGOUT
+router.get("/logout", async (req, res, next) => {
+  try {
+    res.cookie("jwt", { maxAge: 1 });
+    res.status(201).send("Please log in");
+  } catch (error) {
+    console.log(error);
+  }
+});
 //Create user
 router.post("/signup", async (req, res, next) => {
   try {
@@ -29,7 +58,8 @@ router.post("/signup", async (req, res, next) => {
     res.send(newUser);
   } catch (error) {
     console.log(error);
-    res.status(400).send({ error });
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
   }
 });
 
@@ -48,6 +78,8 @@ router.get("/:id", async (req, res, next) => {
     res.send(user);
   } catch (error) {
     console.log(error);
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
   }
 });
 
@@ -69,7 +101,8 @@ router.put("/:id", async (req, res, next) => {
     res.send(modifiedUser);
   } catch (error) {
     console.log(error);
-    createHttpError(400, error);
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
   }
 });
 router.delete("/:id", async (req, res, next) => {
@@ -78,6 +111,7 @@ router.delete("/:id", async (req, res, next) => {
     res.status(201).send({});
   } catch (error) {
     console.log(error);
+    next(createHttpError(404, { message: error.message }));
   }
 });
 export default router;
