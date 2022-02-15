@@ -9,26 +9,28 @@ export default function CustomDatePicker({
   setShowCalendar,
   showCalendar,
   task,
+  dueDate,
+  setDueDate,
 }) {
   const today = new Date();
   const tomorrow = new Date(today);
   const thisWeekend = new Date("Sat Feb 05 2022 9:50 AM"); //a way to find weekend to be found
   const nextWeek = new Date(today);
-  const [value, setValue] = useState(today);
+  // const [value, setValue] = useState(today);
 
   const handleChange = (newValue) => {
-    setValue(newValue);
+    setDueDate(newValue);
   };
 
   useState(() => {
-    console.log(value);
-  }, [value]);
+    console.log(dueDate);
+  }, [dueDate]);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3} className="mt-4">
         <DateTimePicker
           label="Date&Time picker"
-          value={value}
+          value={dueDate}
           onChange={handleChange}
           renderInput={(params) => (
             <div>
@@ -36,7 +38,7 @@ export default function CustomDatePicker({
                 <li
                   className="btn"
                   onClick={() => {
-                    setValue(today);
+                    setDueDate(today);
                     setShowCalendar(true);
                   }}
                 >
@@ -45,7 +47,7 @@ export default function CustomDatePicker({
                 <li
                   className="btn"
                   onClick={() => {
-                    setValue(tomorrow.setDate(tomorrow.getDate() + 1));
+                    setDueDate(tomorrow.setDate(tomorrow.getDate() + 1));
                     setShowCalendar(true);
                   }}
                 >
@@ -54,7 +56,7 @@ export default function CustomDatePicker({
                 <li
                   className="btn"
                   onClick={() => {
-                    setValue(tomorrow.setDate(thisWeekend.getDate() + 7));
+                    setDueDate(tomorrow.setDate(thisWeekend.getDate() + 7));
                     setShowCalendar(true);
                   }}
                 >
@@ -63,7 +65,7 @@ export default function CustomDatePicker({
                 <li
                   className="btn"
                   onClick={() => {
-                    setValue(nextWeek.setDate(tomorrow.getDate() + 7));
+                    setDueDate(nextWeek.setDate(tomorrow.getDate() + 7));
                     setShowCalendar(true);
                   }}
                 >

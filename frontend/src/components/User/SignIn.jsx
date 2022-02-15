@@ -31,7 +31,7 @@ const SignIn = ({ history }) => {
         cookies.set("jwt", token, { expires: expiryDate });
         cookies.set("user", user);
 
-        dispatch(addUserDetails(user));
+        dispatch(addUserDetails({ user }));
         history.push("/");
       } else {
         const data = await response.json();

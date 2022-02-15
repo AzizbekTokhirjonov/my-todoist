@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { BiLabel } from "react-icons/bi";
-import { BsAlarm, BsFlag, BsCalendar2Event } from "react-icons/bs";
+import { BsAlarm, BsFlagFill, BsCalendar2Event } from "react-icons/bs";
 import TextField from "@mui/material/TextField";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import CustomDatePicker from "../CustomDatePicker";
+import { useSelector } from "react-redux";
 import Menu from "../Menu";
-
+const today = new Date();
+const url = process.env.REACT_APP_DEV_URL;
 const AddTask = ({
   setAddTask,
   task = { title: "", description: "" },
@@ -18,15 +20,57 @@ const AddTask = ({
   const [taskTitle, setTaskTitle] = useState(task.title || "");
   const [description, setDescription] = useState(task.description || "");
   const [taskLabel, setTaskLabel] = useState(task.label || "");
-
+  const [dueDate, setDueDate] = useState(task.dueDate || today);
+  const [priority, setPriority] = useState(task.priority || "Low");
   const [openLabelMenu, setOpenLabelMenu] = useState(null);
   const [openPriorityMenu, setOpenPriorityMenu] = useState(null);
+
+  const user = useSelector((state) => state.user.userDetails);
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
 
-  useEffect(() => {}, [openLabelMenu]);
+  const postTask = async () => {
+    const task = {
+      title: taskTitle,
+      description,
+      taskLabel,
+      dueDate: new Date(dueDate),
+      priority: priority === "" ? "Low" : priority,
+      owner: user._id,
+    };
+    const response = await fetch(`${url}/tasks/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(task),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    }
+  };
+  // useEffect(() => {
+  //   console.log(new Date(dueDate));
+  // }, [dueDate]);
 
+  let priorityColor;
+  switch (priority) {
+    case "High":
+      priorityColor = "red";
+      break;
+    case "Medium":
+      priorityColor = "orange";
+      break;
+    case "Dream":
+      priorityColor = "blue";
+      break;
+    default:
+      priorityColor = "green";
+      break;
+  }
   let buttonTitle;
   switch (title) {
     case "checkTask": {
@@ -84,6 +128,8 @@ const AddTask = ({
                     setShowCalendar={setShowCalendar}
                     showCalendar={showCalendar}
                     task={task}
+                    setDueDate={setDueDate}
+                    dueDate={dueDate}
                   />
                 </div>
               ) : (
@@ -133,6 +179,8 @@ const AddTask = ({
                     openMenu={openLabelMenu}
                     closeMenu={setOpenLabelMenu}
                     menuItems={["green", "blue"]}
+                    setTaskLabel={setTaskLabel}
+                    title="label"
                   />
                 </div>
               </Tooltip>
@@ -142,7 +190,8 @@ const AddTask = ({
                 title="Set the priority"
               >
                 <div>
-                  <BsFlag
+                  <BsFlagFill
+                    color={priorityColor}
                     size={20}
                     onClick={(e) => setOpenPriorityMenu(e.currentTarget)}
                     aria-controls={openPriorityMenu ? "basic-menu" : undefined}
@@ -152,12 +201,8 @@ const AddTask = ({
                   <Menu
                     openMenu={openPriorityMenu}
                     closeMenu={setOpenPriorityMenu}
-                    menuItems={[
-                      "1-Priority",
-                      "2-Priority",
-                      "3-Priority",
-                      "4-Priority",
-                    ]}
+                    setPriority={setPriority}
+                    menuItems={["Low", "Medium", "High", "Dream"]}
                   />
                 </div>
               </Tooltip>
@@ -178,11 +223,13 @@ const AddTask = ({
         <button
           type="submit"
           className="btn btn-sm btn-secondary"
-          onClick={() =>
+          onClick={(e) => {
+            e.preventDefault();
+            postTask();
             title === "checkTask" || title === "customModal"
               ? setEdit(false)
-              : setAddTask(false)
-          }
+              : setAddTask(false);
+          }}
         >
           {buttonTitle}
         </button>

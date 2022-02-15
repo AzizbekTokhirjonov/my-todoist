@@ -21,13 +21,7 @@ export const handleCLose = () => {
   };
 };
 
-export const addUserDetails = (firstName, lastName, email, title, imgUrl) => ({
+export const addUserDetails = ({ user }) => ({
   type: LOGIN_USER,
-  payload: {
-    firstName,
-    lastName,
-    email,
-    title,
-    imgUrl,
-  },
+  payload: user,
 });
