@@ -11,13 +11,13 @@ const SignIn = ({ history }) => {
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
-  
-  const {loading, error, userDetails} = useSelector(state => state.user)
+
+  const { loading, error, userDetails } = useSelector((state) => state.user);
 
   const handleFormSubmit = (e) => {
-    e.preventDefault()
-    dispatch(loginUser(email, password))
-  }
+    e.preventDefault();
+    dispatch(loginUser(email, password));
+  };
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -27,17 +27,17 @@ const SignIn = ({ history }) => {
       dispatch(addUserDetails(user));
       history.push("/");
     }
-    if(error){
-      setAlert(true)
+    if (error) {
+      setAlert(true);
       setTimeout(() => {
-        setAlert(false)
+        setAlert(false);
       }, 5000);
     }
   }, [dispatch, history, error, userDetails]);
-  
+
   return (
     <div className="form-container sign-in-container">
-      {loading && 'Loading'}
+      {loading && "Loading"}
       <form onSubmit={handleFormSubmit}>
         <h1>Sign in</h1>
         <div className="social-container">
@@ -65,9 +65,7 @@ const SignIn = ({ history }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <a href="/">Forgot your password?</a>
-        <button type="submit">
-          Sign In
-        </button>
+        <button type="submit">Sign In</button>
         {alert && (
           <div
             style={{ fontSize: 10 }}
