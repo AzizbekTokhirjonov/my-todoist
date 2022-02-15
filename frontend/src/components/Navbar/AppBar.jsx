@@ -5,7 +5,6 @@ import SideMenu from "./Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import ToolbarMenu from "./ToolbarMenu";
-import MainContent from "../Content/MainContent";
 
 const drawerWidth = 300;
 

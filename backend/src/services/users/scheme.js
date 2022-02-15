@@ -8,7 +8,7 @@ const UserSchema = new Schema(
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     userId: { type: String, required: true },
-    title: { type: String, required: true },
+    title: { type: String },
     email: {
       type: String,
       unique: true,
@@ -19,7 +19,6 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: [true, "Please enter your password"],
-      select: false,
     },
     profilePicture: { type: String },
   },
@@ -43,6 +42,12 @@ UserSchema.statics.login = async function (email, password) {
     }
   }
   throw Error("This email does not eist in the system");
+};
+
+UserSchema.methods.toJSON = function () {
+  const obj = this.toObject(); //or var obj = this;
+  delete obj.password;
+  return obj;
 };
 
 export default model("User", UserSchema);

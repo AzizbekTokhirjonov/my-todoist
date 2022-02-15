@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import { BsThreeDots } from "react-icons/bs";
 import {
   BiEditAlt,
   BiComment,

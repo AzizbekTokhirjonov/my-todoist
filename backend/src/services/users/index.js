@@ -7,6 +7,8 @@ import {
   maxAge,
 } from "../../controllers/authControllers.js";
 import { requireAuth, checkUser } from "../../middleware/authMiddleware.js";
+import Cookies from "universal-cookie";
+
 const router = express.Router();
 
 //Login
@@ -15,8 +17,15 @@ router.post("/login", async (req, res, next) => {
     const { email, password } = req.body;
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).send({ user: user._id });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: maxAge * 1000,
+      sameSite: "none",
+      secure: false,
+      domain: "http://localhost:3000",
+    });
+
+    res.status(200).send({ user: user, token });
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);
@@ -65,7 +74,7 @@ router.post("/signup", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find().select("-password");
     res.send(users);
   } catch (error) {
     console.log(error);
@@ -74,7 +83,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const user = await UserModel.findById(req.params.id);
+    const user = await UserModel.findById(req.params.id).select("-password");
     res.send(user);
   } catch (error) {
     console.log(error);

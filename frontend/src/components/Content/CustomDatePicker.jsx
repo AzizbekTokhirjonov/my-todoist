@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import { BiCalendarAlt } from "react-icons/bi";
 
 export default function CustomDatePicker({
   setShowCalendar,
@@ -13,16 +12,13 @@ export default function CustomDatePicker({
 }) {
   const today = new Date();
   const tomorrow = new Date(today);
-  const thisWeekend = new Date("Sat Feb 05 2022 9:50 AM");
+  const thisWeekend = new Date("Sat Feb 05 2022 9:50 AM"); //a way to find weekend to be found
   const nextWeek = new Date(today);
   const [value, setValue] = useState(today);
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
-  function getSaturdayDate() {
-    return new Date(new Date().getTime() - 120 * 60 * 60 * 1000);
-  }
 
   useState(() => {
     console.log(value);

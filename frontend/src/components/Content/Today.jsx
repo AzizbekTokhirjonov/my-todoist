@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { FaRegCommentAlt } from "react-icons/fa";
-
-import { BsThreeDots, BsSliders, BsFillPlusCircleFill } from "react-icons/bs";
+import { BsSliders, BsFillPlusCircleFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import AddTask from "./Task/AddTask";
 const Today = () => {
   const [hover, setHover] = useState(false);
-  const [section, setSection] = useState("");
   const [addTask, setAddTask] = useState(false);
   return (
     <div id="inbox" className="mx-auto">

@@ -1,44 +1,40 @@
-.tasks-wrapper{
-    color: rgb(39, 38, 38);
+.tasks-wrapper {
+  color: rgb(39, 38, 38);
 }
 .tasks-wrapper div {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
-
-
-.tasks-wrapper div div.text div.form-check{
-    font-size: 15px;
+.tasks-wrapper div div.text div.form-check {
+  font-size: 15px;
 }
-.tasks-wrapper div div.text div.additional-text{
-    font-size: 13px;
-    text-overflow: ellipsis;
-    overflow: hidden;
+.tasks-wrapper div div.text div.additional-text {
+  font-size: 13px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-
-.tasks-wrapper div div.icons svg{
-    margin: 5px;
-    font-size: 22px;
-    padding: 2px;
+.tasks-wrapper div div.icons svg {
+  margin: 5px;
+  font-size: 22px;
+  padding: 2px;
 }
-.tasks-wrapper div div.icons svg:hover{
-    background-color: rgb(224, 222, 222);
+.tasks-wrapper div div.icons svg:hover {
+  background-color: rgb(224, 222, 222);
 }
 /* .tasks-wrapper div:hover +  {
     display: block;
 } */
 span {
-    padding-right: 5px;
+  padding-right: 5px;
 }
 
-
 .sub-task-icons-wrapper svg {
-    margin: 2px;
-    font-size: 22px;
-    padding: 2px;
-} 
+  margin: 2px;
+  font-size: 22px;
+  padding: 2px;
+}
 
 .fs-10 {
-    font-size: 14px;
+  font-size: 14px;
 }

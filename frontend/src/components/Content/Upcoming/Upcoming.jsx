@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import "./upcoming.css";
 import tasks from "../../../Dummy-data/tasks";

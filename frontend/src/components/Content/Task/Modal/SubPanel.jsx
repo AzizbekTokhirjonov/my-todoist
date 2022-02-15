@@ -6,12 +6,12 @@ import Comments from "./Comments/Comments";
 import "./modal.css";
 import SubTask from "../SubTask";
 
-const SubPanel = ({task}) => {
+const SubPanel = ({ task }) => {
   const [addSubTask, setSubAddTask] = useState(false);
   const [hover, setHover] = useState(false);
   const [openTab, setOpenTab] = useState("sub-tasks");
-  
-  const { subTasks } = task
+
+  const { subTasks } = task;
 
   return (
     <div className="mt-4">
@@ -38,7 +38,7 @@ const SubPanel = ({task}) => {
         <div className="sub-tasks panel-items">
           {subTasks.map((subTask) => (
             <div key={subTask.id}>
-              <SubTask subTask={subTask}/>
+              <SubTask subTask={subTask} />
               <hr />
             </div>
           ))}

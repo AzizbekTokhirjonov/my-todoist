@@ -6,13 +6,15 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r dotenv/config src/server.js"
+    "client": "cd ../frontend && npm start",
+    "dev": "concurrently \"nodemon -r dotenv/config src/server.js\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "concurrently": "^7.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.17.2",
@@ -21,7 +23,10 @@
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
+    "passport": "^0.5.2",
+    "passport-google-oauth20": "^2.0.0",
     "shortid": "^2.2.16",
+    "universal-cookie": "^4.0.4",
     "validator": "^13.7.0"
   },
   "devDependencies": {

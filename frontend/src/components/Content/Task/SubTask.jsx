@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import { BsThreeDots } from "react-icons/bs";
 import { BiEditAlt, BiCalendarAlt } from "react-icons/bi";
 import "./task.css";
 import { MdDeleteOutline } from "react-icons/md";
