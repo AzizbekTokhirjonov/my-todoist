@@ -1,6 +1,6 @@
 import { initialStore } from "../store";
 // import { connect } from "react-redux";
-import { OPEN_MODAL, REMOVE_MODAL } from "../actions.js";
+import { OPEN_MODAL, REMOVE_MODAL } from "../actions/actions.js";
 
 export default function modalReducer(state = initialStore.modalState, action) {
   switch (action.type) {

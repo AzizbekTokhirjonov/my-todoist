@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import AddTask from "../AddTask";
 import { BsXCircle, BsCalendar2Event } from "react-icons/bs";
 import { BiCalendarAlt } from "react-icons/bi";
-import { handleCLose } from "../../../../redux/actions.js";
+import { handleCLose } from "../../../../redux/actions/actions.js";
 import SubPanel from "./SubPanel";
 import "./modal.css";
 import CustomDatePicker from "../../CustomDatePicker";

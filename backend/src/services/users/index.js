@@ -13,6 +13,7 @@ const router = express.Router();
 
 //Login
 router.post("/login", async (req, res, next) => {
+  console.log('route hit!')
   try {
     const { email, password } = req.body;
     const user = await UserModel.login(email, password);

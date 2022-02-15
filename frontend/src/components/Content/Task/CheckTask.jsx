@@ -9,7 +9,7 @@ import {
 } from "react-icons/bi";
 import "./task.css";
 import { useDispatch } from "react-redux";
-import { handleOpen } from "../../../redux/actions";
+import { handleOpen } from "../../../redux/actions/actions";
 import AddTask from "./AddTask";
 import { MdDeleteOutline } from "react-icons/md";
 import CustomDatePicker from "../CustomDatePicker";

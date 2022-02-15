@@ -2,50 +2,22 @@ import React, { useState, useEffect } from "react";
 import { FaFacebookF, FaLinkedin } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Cookies from "universal-cookie";
-import { useDispatch } from "react-redux";
-import { addUserDetails } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserDetails, loginUser } from "../../redux/actions/actions";
 import { withRouter } from "react-router-dom";
-const url = process.env.REACT_APP_DEV_URL;
 
 const SignIn = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
-  const login = async () => {
-    try {
-      const response = await fetch(`${url}/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        const { token, user } = data;
-        const cookies = new Cookies();
-        const today = new Date();
-        const tomorrow = new Date(today);
-        const expiryDate = new Date(tomorrow.setDate(tomorrow.getDate() + 2));
-        cookies.set("jwt", token, { expires: expiryDate });
-        cookies.set("user", user);
+  
+  const {loading, error, userDetails} = useSelector(state => state.user)
 
-        dispatch(addUserDetails(user));
-        history.push("/");
-      } else {
-        const data = await response.json();
-        console.log(data);
-        setAlert(true);
-        setTimeout(() => {
-          setAlert(false);
-          history.push("/login");
-        }, 5000);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+    dispatch(loginUser(email, password))
+  }
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -55,19 +27,27 @@ const SignIn = ({ history }) => {
       dispatch(addUserDetails(user));
       history.push("/");
     }
-  }, []);
+    if(error){
+      setAlert(true)
+      setTimeout(() => {
+        setAlert(false)
+      }, 5000);
+    }
+  }, [dispatch, history, error, userDetails]);
+  
   return (
     <div className="form-container sign-in-container">
-      <form action="#">
+      {loading && 'Loading'}
+      <form onSubmit={handleFormSubmit}>
         <h1>Sign in</h1>
         <div className="social-container">
-          <a href="#" className="social">
+          <a href="/" className="social">
             <FaFacebookF />
           </a>
-          <a href="#" className="social">
+          <a href="/" className="social">
             <FcGoogle />
           </a>
-          <a href="#" className="social">
+          <a href="/" className="social">
             <FaLinkedin />
           </a>
         </div>
@@ -84,19 +64,14 @@ const SignIn = ({ history }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <a href="#">Forgot your password?</a>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            login();
-          }}
-        >
+        <a href="/">Forgot your password?</a>
+        <button type="submit">
           Sign In
         </button>
         {alert && (
           <div
             style={{ fontSize: 10 }}
-            class="alert alert-danger mt-2 w-100"
+            className="alert alert-danger mt-2 w-100"
             role="alert"
           >
             Your email or password is wrong. Please try again.
