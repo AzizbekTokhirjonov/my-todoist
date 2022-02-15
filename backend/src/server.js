@@ -8,7 +8,7 @@ import tasksRouter from "./services/tasks/index.js";
 import sectionsRouter from "./services/sections/index.js";
 import projectsRouter from "./services/projects/index.js";
 import labelsRouter from "./services/labels/index.js";
-
+import { checkUser } from "./middleware/authMiddleware.js";
 const PORT = process.env.PORT || 5000;
 const server = express();
 const corsOptions = {
@@ -19,6 +19,7 @@ const corsOptions = {
 server.use(cors(corsOptions));
 server.use(express.json());
 server.use(cookieParser());
+server.use("*", checkUser);
 server.use("/users", usersRouter);
 server.use("/tasks", tasksRouter);
 server.use("/sections", sectionsRouter);
