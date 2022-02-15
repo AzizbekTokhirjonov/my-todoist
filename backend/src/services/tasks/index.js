@@ -1,11 +1,12 @@
 import express from "express";
 import TaskModel from "./scheme.js";
 import createHttpError from "http-errors";
+import { requireAuth } from "../../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 //Create task
-router.post("/", async (req, res, next) => {
+router.post("/", requireAuth, async (req, res, next) => {
   try {
     const newTaskInput = req.body;
     const newTask = new TaskModel(newTaskInput);
@@ -17,7 +18,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/", async (req, res, next) => {
+router.get("/", requireAuth, async (req, res, next) => {
   try {
     const tasks = await TaskModel.find();
     res.send(tasks);
@@ -26,7 +27,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", requireAuth, async (req, res, next) => {
   try {
     const task = await TaskModel.findById(req.params.id);
     res.send(task);
@@ -35,7 +36,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", requireAuth, async (req, res, next) => {
   try {
     const modifiedTask = await TaskModel.findByIdAndUpdate(
       req.params.id,
@@ -56,7 +57,7 @@ router.put("/:id", async (req, res, next) => {
     createHttpError(400, error);
   }
 });
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", requireAuth, async (req, res, next) => {
   try {
     const task = await TaskModel.findByIdAndDelete(req.params.id);
     res.status(201).send({});

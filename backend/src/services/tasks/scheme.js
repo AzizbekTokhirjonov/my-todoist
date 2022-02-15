@@ -45,6 +45,8 @@ const TaskSchema = new Schema(
     description: { type: String, required: true },
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     projectId: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+    assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
+    watchers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     labelId: { type: Schema.Types.ObjectId, ref: "Label" },
     priority: {
       type: String,
