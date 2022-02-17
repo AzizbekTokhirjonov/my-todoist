@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { FaFacebookF, FaLinkedin } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
-const url = process.env.REACT_APP_DEV_URL;
+import { useDispatch, useSelector } from "react-redux";
+import { signUpUser } from "../../redux/actions/actions";
+
+
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -19,49 +23,37 @@ const SignUp = () => {
       setAlert(false);
     }, 5000);
   };
-  const signUpUser = async () => {
-    try {
-      const response = await fetch(`${url}/users/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-        }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        handleAlert("success");
-        console.log(data);
-      } else {
-        const data = await response.json();
-        handleAlert("error");
-        if (data.errors.email) {
-          setErrorMessage(data.errors.email);
-        } else {
-          setErrorMessage("Something went wrong, please try again");
-        }
-      }
-    } catch (error) {
-      console.log(error);
+
+  const { loading, success:successfulSignUp, error } = useSelector(state => state.userSignUp)
+  const dispatch = useDispatch()
+   
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(signUpUser({firstName, lastName, email, password}))
+  }
+
+  useEffect(()=> {
+    if(successfulSignUp){
+      handleAlert('success')
+    } else if (error){
+      setErrorMessage(error)
+      handleAlert('error')
+
     }
-  };
+  }, [error, successfulSignUp])
+
   return (
     <div className="form-container sign-up-container">
-      <form action="#">
+      <form onSubmit={handleSubmit}>
         {!alert && <h3>Create Account</h3>}
         <div className="social-container">
-          <a href="#" className="social">
+          <a href="/" className="social">
             <FaFacebookF />
           </a>
-          <a href="#" className="social">
+          <a href="/" className="social">
             <FcGoogle />
           </a>
-          <a href="#" className="social">
+          <a href="/" className="social">
             <FaLinkedin />
           </a>
         </div>
@@ -90,19 +82,15 @@ const SignUp = () => {
           type="password"
           placeholder="Password"
         />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            signUpUser();
-          }}
-        >
+
+        <button type="submit" disabled={loading ? true: false}>
           Sign Up
         </button>
-        {alert && (
+        { alert && (
           <div className="alert">
             {success ? (
               <div
-                class="alert alert-success mt-2 w-100"
+                className="alert alert-success mt-2 w-100"
                 role="alert"
                 style={{ fontSize: 10 }}
               >
@@ -111,7 +99,7 @@ const SignUp = () => {
             ) : (
               <div
                 style={{ fontSize: 10 }}
-                class="alert alert-danger mt-2 w-100"
+                className="alert alert-danger mt-2 w-100"
                 role="alert"
               >
                 {errorMessage}

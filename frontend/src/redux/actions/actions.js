@@ -2,9 +2,14 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
+  SIGNUP_REQUEST,
+  SIGNUP_REQUEST_SUCCESS,
+  SIGNUP_REQUEST_FAIL
 } from "../constants/userConstants";
 import Cookies from "universal-cookie";
 import baseUrl from "../API/baseUrl";
+
+
 export const OPEN_MODAL = "OPEN_MODAL";
 export const REMOVE_MODAL = "REMOVE_MODAL";
 
@@ -49,12 +54,10 @@ export const loginUser = (email, password) => {
         const expiryDate = new Date(tomorrow.setDate(tomorrow.getDate() + 2));
         cookies.set("jwt", token, { expires: expiryDate });
         cookies.set("user", user, { expires: expiryDate });
-        console.log(data);
 
         dispatch({ type: USER_LOGIN_SUCCESS, payload: user });
       } else {
-        const data = await response.json();
-        console.log(data);
+        // const data = await response.json();
         dispatch({
           type: USER_LOGIN_FAIL,
           payload: "Your email or password is wrong. Please try again.",
@@ -73,3 +76,31 @@ export const addUserDetails = (user) => {
     dispatch({ type: USER_LOGIN_SUCCESS, payload: { ...user } });
   };
 };
+
+
+export const signUpUser = (user) => {
+  return async (dispatch) => {
+    try {
+      dispatch({type: SIGNUP_REQUEST})
+      
+      const response = await fetch(`${baseUrl}/users/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({...user}),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch({type: SIGNUP_REQUEST_SUCCESS, payload: data})
+      } else {
+        const data = await response.json();     
+        if (data.errors.email) {
+          dispatch({type: SIGNUP_REQUEST_FAIL, payload: data.errors.email})
+        } 
+       }
+    } catch (error) {
+      dispatch({type: SIGNUP_REQUEST_FAIL, payload: error})
+    }
+  } 
+}

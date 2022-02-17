@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { addUserDetails, loginUser } from "../../redux/actions/actions";
 import { withRouter } from "react-router-dom";
+import Loader from "../Loader";
 
 const SignIn = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const SignIn = ({ history }) => {
   const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
 
-  const { loading, error, userDetails } = useSelector((state) => state.user);
+  const {loading, error, userDetails } = useSelector((state) => state.user);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -37,7 +38,6 @@ const SignIn = ({ history }) => {
 
   return (
     <div className="form-container sign-in-container">
-      {loading && "Loading"}
       <form onSubmit={handleFormSubmit}>
         <h1>Sign in</h1>
         <div className="social-container">
@@ -64,8 +64,9 @@ const SignIn = ({ history }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {loading && <Loader/> } 
         <a href="/">Forgot your password?</a>
-        <button type="submit">Sign In</button>
+        <button type="submit" disabled={loading ? true: false}>Sign in</button>
         {alert && (
           <div
             style={{ fontSize: 10 }}
