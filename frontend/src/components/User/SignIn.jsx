@@ -22,8 +22,8 @@ const SignIn = ({ history }) => {
   useEffect(() => {
     const cookies = new Cookies();
     const cookistExists = cookies.get("jwt");
-    if (cookistExists) {
-      const user = cookies.get("user");
+    const user = cookies.get("user");
+    if (cookistExists && user) {
       dispatch(addUserDetails(user));
       history.push("/");
     }
