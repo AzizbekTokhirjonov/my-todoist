@@ -23,6 +23,7 @@ router.get("/", async (req, res, next) => {
     res.send(labels);
   } catch (error) {
     console.log(error);
+    res.status(500).send({error})
   }
 });
 
@@ -32,6 +33,7 @@ router.get("/:id", async (req, res, next) => {
     res.send(label);
   } catch (error) {
     console.log(error);
+    res.status(404).send({error})
   }
 });
 
@@ -47,7 +49,7 @@ router.put("/:id", async (req, res, next) => {
     }
     {
       next(
-        createHttpError(404, "section with id: " + req.params.id + " not found")
+        createHttpError(404, "label with id: " + req.params.id + " not found")
       );
     }
   } catch (error) {
