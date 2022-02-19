@@ -7,13 +7,12 @@ import {
   maxAge,
 } from "../../controllers/authControllers.js";
 import { requireAuth, checkUser } from "../../middleware/authMiddleware.js";
-import Cookies from "universal-cookie";
 
 const router = express.Router();
 
 //Login
 router.post("/login", async (req, res, next) => {
-  console.log('route hit!')
+  console.log("route hit!");
   try {
     const { email, password } = req.body;
     const user = await UserModel.login(email, password);
@@ -23,7 +22,6 @@ router.post("/login", async (req, res, next) => {
       maxAge: maxAge * 1000,
       sameSite: "none",
       secure: false,
-      domain: "http://localhost:3000",
     });
 
     res.status(200).send({ user: user, token });

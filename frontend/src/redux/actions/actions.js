@@ -4,14 +4,15 @@ import {
   USER_LOGIN_FAIL,
   SIGNUP_REQUEST,
   SIGNUP_REQUEST_SUCCESS,
-  SIGNUP_REQUEST_FAIL
+  LOGOUT_USER,
+  SIGNUP_REQUEST_FAIL,
 } from "../constants/userConstants";
 import Cookies from "universal-cookie";
 import baseUrl from "../API/baseUrl";
 
-
 export const OPEN_MODAL = "OPEN_MODAL";
 export const REMOVE_MODAL = "REMOVE_MODAL";
+const url = process.env.REACT_APP_DEV_URL;
 
 export const handleOpen = (task) => {
   return {
@@ -29,6 +30,22 @@ export const handleCLose = () => {
       open: false,
       openTask: {},
     },
+  };
+};
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${url}/users/logout`);
+      if (response.ok) {
+        const cookies = new Cookies();
+        cookies.remove("jwt");
+        cookies.remove("user");
+        dispatch({ type: LOGOUT_USER });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 };
 
@@ -77,30 +94,29 @@ export const addUserDetails = (user) => {
   };
 };
 
-
 export const signUpUser = (user) => {
   return async (dispatch) => {
     try {
-      dispatch({type: SIGNUP_REQUEST})
-      
+      dispatch({ type: SIGNUP_REQUEST });
+
       const response = await fetch(`${baseUrl}/users/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...user}),
+        body: JSON.stringify({ ...user }),
       });
       if (response.ok) {
         const data = await response.json();
-        dispatch({type: SIGNUP_REQUEST_SUCCESS, payload: data})
+        dispatch({ type: SIGNUP_REQUEST_SUCCESS, payload: data });
       } else {
-        const data = await response.json();     
+        const data = await response.json();
         if (data.errors.email) {
-          dispatch({type: SIGNUP_REQUEST_FAIL, payload: data.errors.email})
-        } 
-       }
+          dispatch({ type: SIGNUP_REQUEST_FAIL, payload: data.errors.email });
+        }
+      }
     } catch (error) {
-      dispatch({type: SIGNUP_REQUEST_FAIL, payload: error})
+      dispatch({ type: SIGNUP_REQUEST_FAIL, payload: error });
     }
-  } 
-}
+  };
+};

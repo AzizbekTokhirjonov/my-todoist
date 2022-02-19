@@ -12,8 +12,10 @@ import AutoCompleteSearch from "./AutocompleteSearch";
 import { BsQuestionCircle } from "react-icons/bs";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { AiOutlinePlus } from "react-icons/ai";
-
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/actions/actions";
 const ToolbarMenu = ({ handleDrawerOpen, open }) => {
+  const dispatch = useDispatch();
   return (
     <Toolbar>
       <IconButton
@@ -73,6 +75,7 @@ const ToolbarMenu = ({ handleDrawerOpen, open }) => {
           aria-label="account of current user"
           aria-haspopup="true"
           color="inherit"
+          onClick={() => dispatch(logoutUser())}
         >
           <AccountCircle />
         </IconButton>

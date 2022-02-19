@@ -6,8 +6,15 @@ import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import CustomDatePicker from "../CustomDatePicker";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Menu from "../Menu";
+import {
+  getTasks,
+  postTask,
+  updateTask,
+} from "../../../redux/actions/taskActions";
+import { format } from "date-fns";
+
 const today = new Date();
 const url = process.env.REACT_APP_DEV_URL;
 const AddTask = ({
@@ -15,6 +22,7 @@ const AddTask = ({
   task = { title: "", description: "" },
   setEdit,
   title = "",
+  upcomingDate,
 }) => {
   const [showCalendar, setShowCalendar] = useState(true);
   const [taskTitle, setTaskTitle] = useState(task.title || "");
@@ -24,34 +32,22 @@ const AddTask = ({
   const [priority, setPriority] = useState(task.priority || "Low");
   const [openLabelMenu, setOpenLabelMenu] = useState(null);
   const [openPriorityMenu, setOpenPriorityMenu] = useState(null);
-
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.userDetails);
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
+  title === "upcoming" && setDueDate(upcomingDate);
 
-  const postTask = async () => {
-    const task = {
-      title: taskTitle,
-      description,
-      taskLabel,
-      dueDate: new Date(dueDate),
-      priority: priority === "" ? "Low" : priority,
-      owner: user._id,
-    };
-    const response = await fetch(`${url}/tasks/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(task),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-    }
+  const taskObject = {
+    title: taskTitle,
+    description,
+    taskLabel,
+    dueDate: new Date(dueDate),
+    priority: priority === "" ? "Low" : priority,
+    owner: user._id,
   };
+
   // useEffect(() => {
   //   console.log(new Date(dueDate));
   // }, [dueDate]);
@@ -99,6 +95,7 @@ const AddTask = ({
               fullWidth
               variant="standard"
               value={taskTitle}
+              required
               placeholder="e.g., Finish info component by evening"
               InputProps={{ disableUnderline: true }}
               style={{ fontSize: "12px" }}
@@ -113,6 +110,7 @@ const AddTask = ({
               placeholder="Description"
               variant="standard"
               fullWidth
+              required
               InputProps={{ disableUnderline: true }}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -141,7 +139,10 @@ const AddTask = ({
                     className="btn btn-sm btn-light"
                     style={{ borderColor: "#ccc" }}
                   >
-                    <BsCalendar2Event className="mr-1" /> Schedule
+                    <BsCalendar2Event className="mr-1" />{" "}
+                    {task.dueDate
+                      ? format(new Date(task.dueDate), "dd/MM/yyyy")
+                      : "Schedule"}
                   </button>
                 </label>
               )}
@@ -225,7 +226,9 @@ const AddTask = ({
           className="btn btn-sm btn-secondary"
           onClick={(e) => {
             e.preventDefault();
-            postTask();
+            title === "checkTask" || title === "customModal"
+              ? dispatch(updateTask(task._id, taskObject))
+              : dispatch(postTask(taskObject));
             title === "checkTask" || title === "customModal"
               ? setEdit(false)
               : setAddTask(false);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BiEditAlt,
   BiComment,
@@ -13,6 +13,9 @@ import { handleOpen } from "../../../redux/actions/actions";
 import AddTask from "./AddTask";
 import { MdDeleteOutline } from "react-icons/md";
 import CustomDatePicker from "../CustomDatePicker";
+import format from "date-fns/format";
+import { getTasks } from "../../../redux/actions/taskActions";
+const url = process.env.REACT_APP_DEV_URL;
 
 export default function CheckTask({ task }) {
   const [hover, setHover] = useState(false);
@@ -20,6 +23,16 @@ export default function CheckTask({ task }) {
   const [showCalendar, setShowCalendar] = useState(true);
   const dispatch = useDispatch();
 
+  const deleteTask = async (id) => {
+    console.log(`${url}/tasks/${id}`);
+    const response = await fetch(`${url}/tasks/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (response.ok) {
+      dispatch(getTasks());
+    }
+  };
   return (
     <div>
       {edit ? (
@@ -29,7 +42,7 @@ export default function CheckTask({ task }) {
           className="d-flex justify-content-between py-2 wrapper"
           onMouseOut={() => setHover(false)}
           onMouseOver={() => setHover(true)}
-          key={task.id}
+          key={task._id}
         >
           <div className="text">
             <div className="form-check">
@@ -37,12 +50,12 @@ export default function CheckTask({ task }) {
                 className="form-check-input"
                 type="radio"
                 name={task.title}
-                id={task.id}
+                id={task._id}
               />
               <label
                 onClick={() => dispatch(handleOpen(task))}
                 className="form-check-label"
-                htmlFor={task.id}
+                htmlFor={task._id}
               >
                 {task.title}
               </label>
@@ -82,7 +95,7 @@ export default function CheckTask({ task }) {
                 >
                   <span>
                     <BiCalendarAlt />
-                    {task.dueDate || "Schedule"}
+                    {format(new Date(task.dueDate), "dd/MM/yyyy") || "Schedule"}
                   </span>
                 </label>
               )}
@@ -98,7 +111,10 @@ export default function CheckTask({ task }) {
               onClick={() => dispatch(handleOpen(task))}
               style={hover ? { opacity: 1 } : { opacity: 0 }}
             />
-            <MdDeleteOutline style={hover ? { opacity: 1 } : { opacity: 0 }} />
+            <MdDeleteOutline
+              onClick={() => deleteTask(task._id)}
+              style={hover ? { opacity: 1 } : { opacity: 0 }}
+            />
           </div>
         </div>
       )}

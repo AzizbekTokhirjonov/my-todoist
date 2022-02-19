@@ -1,6 +1,7 @@
 import { initialStore } from "../store";
 // import { connect } from "react-redux";
 import { OPEN_MODAL, REMOVE_MODAL } from "../actions/actions.js";
+import { UPDATE_MODAL_TASK } from "../constants/taskConstants";
 
 export default function modalReducer(state = initialStore.modalState, action) {
   switch (action.type) {
@@ -16,6 +17,12 @@ export default function modalReducer(state = initialStore.modalState, action) {
         ...state,
         open: action.payload.open,
         openTask: {},
+      };
+    }
+    case UPDATE_MODAL_TASK: {
+      return {
+        ...state,
+        status: action.payload,
       };
     }
     default:

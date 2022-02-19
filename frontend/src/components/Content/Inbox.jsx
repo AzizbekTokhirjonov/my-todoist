@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
 import TextField from "@mui/material/TextField";
 import { BsThreeDots, BsSliders } from "react-icons/bs";
@@ -7,11 +7,23 @@ import CheckTask from "./Task/CheckTask";
 import "./Task/task.css";
 import CustomModal from "./Task/Modal/CustomModal";
 import AddTaskIcon from "./Task/AddTaskIcon";
-import tasks from "../../Dummy-data/tasks";
+import { useSelector, useDispatch } from "react-redux";
+import { getTasks } from "../../redux/actions/taskActions";
 const Inbox = () => {
   const [hover, setHover] = useState(false);
   const [section, setSection] = useState("");
   const [addTask, setAddTask] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const dispatch = useDispatch();
+  const taskList = useSelector((state) => state.tasks.list);
+  useEffect(() => {
+    dispatch(getTasks());
+  }, []);
+
+  useEffect(() => {
+    setTasks(taskList);
+  }, [taskList]);
+
   const sections = [];
 
   const addSection = (e) => {
@@ -52,7 +64,7 @@ const Inbox = () => {
 
       <div className="tasks-wrapper">
         {tasks.map((task) => (
-          <React.Fragment key={task.id}>
+          <React.Fragment key={task._id}>
             <CheckTask task={task} />
             <hr />
           </React.Fragment>

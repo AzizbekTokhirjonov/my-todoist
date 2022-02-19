@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import MailIcon from "@mui/icons-material/Mail";
@@ -10,6 +10,7 @@ import { handleCLose } from "../../../../redux/actions/actions.js";
 import SubPanel from "./SubPanel";
 import "./modal.css";
 import CustomDatePicker from "../../CustomDatePicker";
+import { format } from "date-fns";
 const style = {
   position: "absolute",
   top: "50%",
@@ -77,7 +78,8 @@ const CustomModal = () => {
                         className="btn btn-sm btn-outline-danger"
                         style={{ borderColor: "#ccc" }}
                       >
-                        <BiCalendarAlt /> {openTask.dueDate}
+                        <BiCalendarAlt />{" "}
+                        {format(new Date(openTask.dueDate), "dd/MM/yyyy")}
                       </button>
                     </label>
                   ) : (

@@ -2,7 +2,8 @@ import express from "express";
 import TaskModel from "./scheme.js";
 import createHttpError from "http-errors";
 import { requireAuth } from "../../middleware/authMiddleware.js";
-
+import UserModel from "../users/scheme.js";
+import mongoose from "mongoose";
 const router = express.Router();
 
 //Create task
@@ -20,8 +21,18 @@ router.post("/", requireAuth, async (req, res, next) => {
 
 router.get("/", requireAuth, async (req, res, next) => {
   try {
+    const user = JSON.parse(req.cookies.user);
+    console.log(req.cookies.user);
     const tasks = await TaskModel.find();
-    res.send(tasks);
+    const filteredTasks = tasks.filter((task) => {
+      const taskOwner = task.owner.toString();
+      const userId = user._id;
+      const watchers = task.watchers.map((watcher) => watcher.toString());
+      if (taskOwner === userId || watchers.includes(userId)) {
+        return task;
+      }
+    });
+    res.send(filteredTasks);
   } catch (error) {
     console.log(error);
   }

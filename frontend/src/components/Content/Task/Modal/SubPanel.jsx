@@ -36,12 +36,13 @@ const SubPanel = ({ task }) => {
       </div>
       {openTab === "sub-tasks" ? (
         <div className="sub-tasks panel-items">
-          {subTasks.map((subTask) => (
-            <div key={subTask.id}>
-              <SubTask subTask={subTask} />
-              <hr />
-            </div>
-          ))}
+          {subTasks &&
+            subTasks.map((subTask) => (
+              <div key={subTask._id}>
+                <SubTask subTask={subTask} />
+                <hr />
+              </div>
+            ))}
           {addSubTask ? (
             <AddTask setAddTask={setSubAddTask} title="subPanel" />
           ) : (
