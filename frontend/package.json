@@ -19,6 +19,7 @@
     "kalend": "^0.9.4",
     "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
@@ -29,6 +30,7 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "universal-cookie": "^4.0.4",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

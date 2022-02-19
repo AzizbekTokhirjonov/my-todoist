@@ -7,6 +7,7 @@ import {
   BiCalendarEdit,
   BiGitMerge,
 } from "react-icons/bi";
+import { GrDrag } from "react-icons/gr";
 import "./task.css";
 import { useDispatch } from "react-redux";
 import { handleOpen } from "../../../redux/actions/actions";
@@ -34,7 +35,7 @@ export default function CheckTask({ task }) {
     }
   };
   return (
-    <div>
+    <div className="wrapper">
       {edit ? (
         <AddTask task={task} setEdit={setEdit} title="checkTask" />
       ) : (

@@ -48,6 +48,7 @@ const PrimarySearchAppBar = ({ open, setOpen }) => {
           <ToolbarMenu open={open} handleDrawerOpen={handleDrawerOpen} />
         </AppBar>
         <SideMenu
+          setOpen={setOpen}
           open={open}
           handleDrawerClose={handleDrawerClose}
           theme={theme}

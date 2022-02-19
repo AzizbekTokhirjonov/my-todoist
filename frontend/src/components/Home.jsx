@@ -5,6 +5,8 @@ import Upcoming from "./Content/Upcoming/Upcoming";
 import Filters from "./Content/FilterScreen/Filters";
 import AppBar from "./Navbar/AppBar";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Project from "./Content/Projects/Project";
+import Kanban from "./Content/Projects/Kanban";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
@@ -26,6 +28,8 @@ const Home = () => {
           <Route path="/today" exact component={Today} />
           <Route path="/upcoming" exact component={Upcoming} />
           <Route path="/filters" exact component={Filters} />
+          <Route path="/projects" exact component={Project} />
+          <Route path="/projects/kanban" exact component={Kanban} />
         </div>
       </Router>
     </div>

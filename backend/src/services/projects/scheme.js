@@ -15,6 +15,7 @@ const ProjectSchema = new Schema(
     },
     collaborators: [{ type: Schema.Types.ObjectId, ref: "User" }],
     invitees: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    sections: [{ type: Schema.Types.ObjectId, ref: "Section" }],
   },
   { timestamps: true }
 );
