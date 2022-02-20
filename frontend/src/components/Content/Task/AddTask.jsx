@@ -8,16 +8,14 @@ import Fade from "@mui/material/Fade";
 import CustomDatePicker from "../CustomDatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import Menu from "../Menu";
-import {
-  postTask,
-  updateTask,
-} from "../../../redux/actions/taskActions";
+import { postTask, updateTask } from "../../../redux/actions/taskActions";
 import { format } from "date-fns";
 import { fetchAllLabels } from "../../../redux/actions/labelActions";
 
 
 
 const today = new Date();
+
 
 const tempPriorityList = [
   {
@@ -47,7 +45,6 @@ const AddTask = ({
   task = { title: "", description: "" },
   setEdit,
   title = "",
-  upcomingDate,
 }) => {
   const [showCalendar, setShowCalendar] = useState(true);
   const [taskTitle, setTaskTitle] = useState(task.title || "");
@@ -65,7 +62,6 @@ const AddTask = ({
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
-  title === "upcoming" && setDueDate(upcomingDate);
 
   const taskObject = {
     title: taskTitle,
@@ -76,9 +72,11 @@ const AddTask = ({
     owner: user._id,
   };
 
+
   useEffect(() => {
       dispatch(fetchAllLabels())
   }, []);
+
 
   let priorityColor;
   switch (priority) {

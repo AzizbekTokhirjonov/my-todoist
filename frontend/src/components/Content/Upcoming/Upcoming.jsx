@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import "./upcoming.css";
-import CheckTask from "../Task/CheckTask";
-import AddTask from "../Task/AddTask";
-import AddTaskIcon from "../Task/AddTaskIcon";
 import UpcomingDatePicker from "./UpcomingDatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks } from "../../../redux/actions/taskActions";
+import UpcomingDate from "./UpcomingDate";
 const today = new Date();
 const tomorrow = new Date(today);
 const maxDate = new Date(tomorrow.setDate(tomorrow.getDate() + 730));
 const Upcoming = () => {
-  const [hover, setHover] = useState(false);
-  const [addTask, setAddTask] = useState(false);
   const [value, setValue] = React.useState([null, null]);
   const [dates, setDates] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -71,36 +67,7 @@ const Upcoming = () => {
       <ul>
         {dates.length > 1 &&
           dates.slice(0, 30).map((date) => {
-            return (
-              <li className="mt-4" key={date}>
-                <div className="date">{date}</div>
-
-                {tasks.map((task) => {
-                  const createdOnThatDate =
-                    format(new Date(task.dueDate), "dd/MM/yyyy EEEE") === date;
-                  return (
-                    createdOnThatDate && (
-                      <div className="tasks-wrapper">
-                        <React.Fragment key={task._id}>
-                          <CheckTask task={task} />
-
-                          <hr />
-                        </React.Fragment>
-                      </div>
-                    )
-                  );
-                })}
-                {addTask ? (
-                  <AddTask setAddTask={setAddTask} />
-                ) : (
-                  <AddTaskIcon
-                    setAddTask={setAddTask}
-                    setHover={setHover}
-                    hover={hover}
-                  />
-                )}
-              </li>
-            );
+            return <UpcomingDate tasks={tasks} date={date} />;
           })}
       </ul>
     </div>
