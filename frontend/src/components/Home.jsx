@@ -6,7 +6,7 @@ import Filters from "./Content/FilterScreen/Filters";
 import AppBar from "./Navbar/AppBar";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Project from "./Content/Projects/Project";
-import Kanban from "./Content/Projects/Kanban";
+import Kanban from "./Content/Projects/Kanban/Kanban";
 
 const Home = () => {
   const [open, setOpen] = useState(false);

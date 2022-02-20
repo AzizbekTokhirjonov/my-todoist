@@ -82,8 +82,8 @@ const ProjectAccordion = ({
       <ul className="ml-5 w-100 drawbar-projects">
         {showProjects &&
           projects.map((project) => (
-            <Link to="/projects/kanban">
-              <li key={project.title}>
+            <Link key={project.title} to="/projects/kanban">
+              <li>
                 <div className="d-flex justify-content-between additional-text">
                   <div style={{ fontSize: "13px" }}>
                     <BiRadioCircleMarked style={{ color: project.color }} />
