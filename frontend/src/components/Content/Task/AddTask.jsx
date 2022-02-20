@@ -10,8 +10,36 @@ import { useSelector, useDispatch } from "react-redux";
 import Menu from "../Menu";
 import { postTask, updateTask } from "../../../redux/actions/taskActions";
 import { format } from "date-fns";
+import { fetchAllLabels } from "../../../redux/actions/labelActions";
+
+
 
 const today = new Date();
+
+
+const tempPriorityList = [
+  {
+    _id: 1,
+    title: "Low",
+    type: 'priority'
+  },
+  {
+    _id: 2,
+    title: "Medium",
+    type: 'priority'
+  },
+  {
+    _id: 3,
+    title: "High",
+    type: 'priority'
+  },
+  {
+    _id: 4,
+    title: "Dream",
+    type: 'priority'
+  }
+]
+
 const AddTask = ({
   setAddTask,
   task = { title: "", description: "" },
@@ -21,13 +49,16 @@ const AddTask = ({
   const [showCalendar, setShowCalendar] = useState(true);
   const [taskTitle, setTaskTitle] = useState(task.title || "");
   const [description, setDescription] = useState(task.description || "");
-  const [taskLabel, setTaskLabel] = useState(task.label || "");
+  const [taskLabel, setTaskLabel] = useState(task.label || {});
   const [dueDate, setDueDate] = useState(task.dueDate || today);
-  const [priority, setPriority] = useState(task.priority || "Low");
+  const [priority, setPriority] = useState(task.priority || {title: 'Low'});
   const [openLabelMenu, setOpenLabelMenu] = useState(null);
   const [openPriorityMenu, setOpenPriorityMenu] = useState(null);
+  
   const dispatch = useDispatch();
+  
   const user = useSelector((state) => state.user.userDetails);
+  const {labels} = useSelector((state) => state.labelProps)
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
@@ -35,11 +66,18 @@ const AddTask = ({
   const taskObject = {
     title: taskTitle,
     description,
-    taskLabel,
+    label: taskLabel._id,
     dueDate: new Date(dueDate),
-    priority: priority === "" ? "Low" : priority,
+    priority: priority === "" ? "Low" : priority.title,
     owner: user._id,
   };
+
+
+  useEffect(() => {
+      dispatch(fetchAllLabels())
+  }, []);
+
+
   let priorityColor;
   switch (priority) {
     case "High":
@@ -162,13 +200,14 @@ const AddTask = ({
                     aria-controls={openLabelMenu ? "basic-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={openLabelMenu ? "true" : undefined}
+                    style={{color: taskLabel.color}}
                   />
-                  {taskLabel.length && taskLabel}
+                  {taskLabel && taskLabel.title}
                   <Menu
                     openMenu={openLabelMenu}
                     closeMenu={setOpenLabelMenu}
-                    menuItems={["green", "blue"]}
-                    setTaskLabel={setTaskLabel}
+                    menuItems={labels ? labels : []}
+                    setItem={setTaskLabel}
                     title="label"
                   />
                 </div>
@@ -187,11 +226,12 @@ const AddTask = ({
                     aria-haspopup="true"
                     aria-expanded={openPriorityMenu ? "true" : undefined}
                   />
+                  {priority && priority.title}
                   <Menu
                     openMenu={openPriorityMenu}
                     closeMenu={setOpenPriorityMenu}
-                    setPriority={setPriority}
-                    menuItems={["Low", "Medium", "High", "Dream"]}
+                    setItem={setPriority}
+                    menuItems={tempPriorityList}
                   />
                 </div>
               </Tooltip>

@@ -20,6 +20,7 @@ export const getTasks = () => {
 };
 
 export const postTask = (taskObject) => {
+  console.log(taskObject)
   return async (dispatch) => {
     try {
       const response = await fetch(`${url}/tasks/`, {

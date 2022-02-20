@@ -3,7 +3,7 @@ import { BsChevronCompactDown,  BsChevronRight, BsFillDropletFill, BsFillTagFill
 import {BiPlus, BiEditAlt, BiHeart} from "react-icons/bi"
 import TransitionsModal from '../TransitionModal';
 import Select from './Select';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createLabel, deleteLabel, updateLabel } from '../../../redux/actions/labelActions';
 
 
@@ -29,8 +29,6 @@ const Accordion = ({filters, labels}) => {
     const [letLabelSubmit, setLetLabelSubmit] = useState(false)
     const [labelAction, setLabelAction] = useState('create')
 
-    const user = useSelector((state) => state.user.userDetails);
-
     const dispatch = useDispatch()
     const handleFilterSubmit = (e) => {
         e.preventDefault()
@@ -38,7 +36,7 @@ const Accordion = ({filters, labels}) => {
     const handleLabelCreate = (e) => {
         if(labelTitle && labelColor){
             setOpenLabelsModal(false)
-            dispatch(createLabel({title: labelTitle, color: labelColor, favorite: labelAddToFavourites, owner: user._id}))
+            dispatch(createLabel({title: labelTitle, color: labelColor, favorite: labelAddToFavourites}))
         }
 
     }

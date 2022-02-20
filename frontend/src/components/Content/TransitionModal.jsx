@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Tooltip from "@mui/material/Tooltip";
-import { BsQuestionCircle } from "react-icons/bs";
+import  React, {useEffect, useState} from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Tooltip from '@mui/material/Tooltip';
+import { BsQuestionCircle,  } from "react-icons/bs";
+
 
 const style = {
-  position: "relative",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'relative',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: "45vh",
   height: "60vh",
   bgcolor: "background.paper",
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
-  padding: 0,
+  padding: 0
+
 };
+
 
 export default function TransitionsModal({
   children,
@@ -90,3 +93,4 @@ export default function TransitionsModal({
     </div>
   );
 }
+

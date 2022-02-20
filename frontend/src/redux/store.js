@@ -18,6 +18,10 @@ export const initialStore = {
   tasks: {
     list: [],
   },
+  labelProps: {
+    loading: false,
+    labels: []
+  },
   labelOps: {
     createLabel: {
       loading: false

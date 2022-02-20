@@ -11,8 +11,8 @@ router.post("/", requireAuth, async (req, res, next) => {
   try {
     const newTaskInput = req.body;
     const newTask = new TaskModel(newTaskInput);
-    const { _id } = await newTask.save();
-    res.send(newTask);
+    const savedTask = await newTask.save();
+    res.send(savedTask);
   } catch (error) {
     console.log(error);
     res.status(400).send({ error });
@@ -22,16 +22,18 @@ router.post("/", requireAuth, async (req, res, next) => {
 router.get("/", requireAuth, async (req, res, next) => {
   try {
     const user = JSON.parse(req.cookies.user);
-    console.log(req.cookies.user);
-    const tasks = await TaskModel.find();
+    const tasks = await TaskModel.find().populate({path: 'label'});
     const filteredTasks = tasks.filter((task) => {
       const taskOwner = task.owner.toString();
       const userId = user._id;
-      const watchers = task.watchers.map((watcher) => watcher.toString());
+      const watchers = task.watchers.map( (watcher) => watcher.toString());
       if (taskOwner === userId || watchers.includes(userId)) {
-        return task;
+        return task
       }
     });
+
+    console.log(filteredTasks)
+    
     res.send(filteredTasks);
   } catch (error) {
     console.log(error);
