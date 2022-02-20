@@ -13,7 +13,7 @@ const SignIn = ({ history }) => {
   const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
 
-  const {loading, error, userDetails } = useSelector((state) => state.user);
+  const { loading, error, userDetails } = useSelector((state) => state.user);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -64,9 +64,11 @@ const SignIn = ({ history }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {loading && <Loader/> } 
+        {loading && <Loader />}
         <a href="/">Forgot your password?</a>
-        <button type="submit" disabled={loading ? true: false}>Sign in</button>
+        <button type="submit" disabled={loading ? true : false}>
+          Sign in
+        </button>
         {alert && (
           <div
             style={{ fontSize: 10 }}

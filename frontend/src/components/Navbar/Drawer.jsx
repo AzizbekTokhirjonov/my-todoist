@@ -19,6 +19,9 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import { Link } from "react-router-dom";
+import ProjectAccordion from "../Content/Projects/ProjectAccordion";
+import { BsChevronCompactDown } from "react-icons/bs";
+import { BiPlus } from "react-icons/bi";
 const drawerWidth = 300;
 
 const openedMixin = (theme) => ({
@@ -67,8 +70,13 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-
-export default function SideMenu({ open, handleDrawerClose, theme }) {
+const projects = [
+  { title: "Assigned to me", color: "blue" },
+  { title: "High priority", color: "red" },
+];
+export default function SideMenu({ open, handleDrawerClose, theme, setOpen }) {
+  const [showProjects, setShowProjects] = React.useState(true);
+  const [openProjectsModal, setOpenProjectsModal] = React.useState(false);
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader sx={{ backgroundColor: "#424242" }}>
@@ -168,7 +176,7 @@ export default function SideMenu({ open, handleDrawerClose, theme }) {
         </Link>
       </List>
       <Divider />
-      <List>
+      <List id="drawer-projects">
         <ListItem button key="Favorites">
           <ListItemIcon>
             {open ? (
@@ -186,23 +194,60 @@ export default function SideMenu({ open, handleDrawerClose, theme }) {
           </ListItemIcon>
           <ListItemText primary="Favorites" />
         </ListItem>
-        <ListItem button key="Projects">
-          <ListItemIcon>
-            {open ? (
-              <ChevronRightIcon />
-            ) : (
-              <Tooltip
-                placement="right"
-                title="Projects"
-                TransitionComponent={Fade}
-                TransitionProps={{ timeout: 600 }}
-              >
-                <AppRegistrationIcon style={{ color: "#B3541E" }} />
-              </Tooltip>
-            )}
-          </ListItemIcon>
-          <ListItemText primary="Projects" />
+
+        <ListItem
+          button
+          key="Projects"
+          onClick={() => {
+            setShowProjects((showProjects) => !showProjects);
+            setOpen(true);
+          }}
+        >
+          <div className="d-flex justify-content-between w-100">
+            <div className="icon d-flex">
+              <ListItemIcon>
+                {open ? (
+                  showProjects ? (
+                    <BsChevronCompactDown className="my-auto" />
+                  ) : (
+                    <ChevronRightIcon className="my-auto" />
+                  )
+                ) : (
+                  <Tooltip
+                    placement="right"
+                    title="Projects"
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                  >
+                    <AppRegistrationIcon style={{ color: "#B3541E" }} />
+                  </Tooltip>
+                )}
+              </ListItemIcon>
+              <ListItemText primary="Projects" />
+            </div>
+            <div className="add">
+              <BiPlus
+                className="my-auto hoverable-plus "
+                size={20}
+                onClick={() => setOpenProjectsModal(true)}
+              />
+            </div>
+          </div>
         </ListItem>
+        {
+          (showProjects,
+          open && (
+            <ListItem className="w-100">
+              <ProjectAccordion
+                setShowProjects={setShowProjects}
+                showProjects={showProjects}
+                setOpenProjectsModal={setOpenProjectsModal}
+                openProjectsModal={openProjectsModal}
+                projects={projects}
+              />
+            </ListItem>
+          ))
+        }
         <ListItem button key="Archive">
           <ListItemIcon>
             {open ? (

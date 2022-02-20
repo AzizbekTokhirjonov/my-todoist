@@ -63,3 +63,25 @@ export const updateTask = (id, taskObject) => {
     }
   };
 };
+
+export const postSection = (sectionObj) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${url}/sections/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(sectionObj),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        dispatch(getTasks());
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};

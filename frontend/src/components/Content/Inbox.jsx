@@ -8,14 +8,17 @@ import "./Task/task.css";
 import CustomModal from "./Task/Modal/CustomModal";
 import AddTaskIcon from "./Task/AddTaskIcon";
 import { useSelector, useDispatch } from "react-redux";
-import { getTasks } from "../../redux/actions/taskActions";
+import { getTasks, postSection } from "../../redux/actions/taskActions";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 const Inbox = () => {
+  const taskList = useSelector((state) => state.tasks.list);
   const [hover, setHover] = useState(false);
   const [section, setSection] = useState("");
   const [addTask, setAddTask] = useState(false);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(taskList);
   const dispatch = useDispatch();
-  const taskList = useSelector((state) => state.tasks.list);
+
   useEffect(() => {
     dispatch(getTasks());
   }, []);
@@ -26,18 +29,13 @@ const Inbox = () => {
 
   const sections = [];
 
-  const addSection = (e) => {
-    e.preventDefault();
-    sections.push(section);
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    const items = Array.from(tasks);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setTasks(items);
   };
-
-  const handleKeypress = (e) => {
-    //it triggers by pressing the enter key
-    if (e.keyCode === 13) {
-      addSection(e);
-    }
-  };
-
   return (
     <div id="inbox" className="mx-auto">
       <CustomModal />
@@ -61,15 +59,33 @@ const Inbox = () => {
           </ul>
         </div>
       </div>
-
-      <div className="tasks-wrapper">
-        {tasks.map((task) => (
-          <React.Fragment key={task._id}>
-            <CheckTask task={task} />
-            <hr />
-          </React.Fragment>
-        ))}
-      </div>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="tasks">
+          {(provided) => (
+            <div
+              className="tasks-wrapper"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {tasks.map((task, index) => (
+                <Draggable key={task._id} draggableId={task._id} index={index}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <CheckTask task={task} />
+                      <hr />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
 
       {addTask ? (
         <AddTask setAddTask={setAddTask} />
@@ -95,17 +111,16 @@ const Inbox = () => {
           onChange={(e) => {
             setSection(e.target.value);
           }}
-          //   onKeyPress={(e) => {
-          //     handleKeypress(e);
-          //   }}
-          onKeyDown={handleKeypress}
           tabIndex="0"
         />
         <div className="d-flex mt-2">
           {section.length > 1 ? (
             <button
               type="submit"
-              onClick={addSection}
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(postSection({ title: section }));
+              }}
               className="btn btn-secondary btn-sm"
             >
               Add Section
