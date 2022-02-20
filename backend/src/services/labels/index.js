@@ -46,7 +46,7 @@ router.put("/:id", async (req, res, next) => {
     );
     if (modifiedLabel) {
       res.send(modifiedLabel);
-    }
+    }else
     {
       next(
         createHttpError(404, "label with id: " + req.params.id + " not found")

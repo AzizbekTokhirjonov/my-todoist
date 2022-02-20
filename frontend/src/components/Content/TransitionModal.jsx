@@ -19,65 +19,27 @@ const style = {
   p: 4,
   padding: 0,
 };
+export default function TransitionsModal({children, openModal, closeModal, title, action, letAction}) {
+    const [open, setOpen] = useState(openModal);
+    const [disable, setDisable] = useState(!letAction)
+    const handleClose = () => closeModal(false);
 
-export default function TransitionsModal({
-  children,
-  openModal,
-  closeModal,
-  title,
-}) {
-  const [open, setOpen] = useState(openModal);
-  const handleClose = () => closeModal(false);
-
-  useEffect(() => {
-    setOpen(openModal);
-  }, [openModal]);
-
-  return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <div className="transitionsmodal-header">
-              <span>{title}</span>
-              <Tooltip
-                title="Click to explore this functionality"
-                placement="right-start"
-              >
-                <span>
-                  <BsQuestionCircle />
-                </span>
-              </Tooltip>
-            </div>
+    useEffect(() => {
+        setOpen(openModal)
+        setDisable(!letAction)
+    }, [openModal, letAction])
 
             <div className="container transitionsmodal-body">{children}</div>
 
-            <div className="transitionsmodal-footer">
-              <button
-                style={{ borderColor: "#ccc" }}
-                type="button"
-                className="btn btn-light"
-                onClick={handleClose}
-              >
-                Cancel
-              </button>
-              <button type="submit" className="btn btn-dark">
-                Add
-              </button>
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
-    </div>
-  );
+
+                    <div className="transitionsmodal-footer" >
+                        <button style={{ borderColor: "#ccc" }} type="button" className="btn btn-light" onClick={handleClose}>Cancel</button>
+                        <button type="button" className="btn btn-dark" onClick={action} disabled={disable}>Add</button>            
+                    </div>
+                </Box>
+            </Fade>
+        </Modal>
+        </div>
+    );
 }
+
