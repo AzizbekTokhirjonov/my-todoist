@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import { BsChevronCompactDown,  BsChevronRight, BsFillDropletFill, BsFillTagFill} from "react-icons/bs";
+import { BsChevronCompactDown,  BsChevronRight, BsFillDropletFill, BsFillTagFill, BsTrash} from "react-icons/bs";
 import {BiPlus, BiEditAlt, BiHeart} from "react-icons/bi"
 import TransitionsModal from '../TransitionModal';
 import Select from './Select';
+import { useDispatch, useSelector } from 'react-redux';
+import { createLabel, deleteLabel, updateLabel } from '../../../redux/actions/labelActions';
 
 
 const colors = ['blue', 'green', 'red', 'pink', 'yellow']
@@ -20,19 +22,54 @@ const Accordion = ({filters, labels}) => {
     const [filterAddToFavourites, setFilterAddToFavourites] = useState(false)
    
 
+    const [currentLabel, setCurrentLable] = useState({})
     const [labelTitle, setLabelTitle] = useState('')
     const [labelColor, setLabelColor] = useState(colors[0])
     const [labelAddToFavourites, setLabelAddToFavourites] = useState(false)
-    // console.log('filterTitle-', filterTitle, 'filterQuery-', filterQuery, 'filterColor', filterColor, 'filterAddToFavourites-', filterAddToFavourites)
+    const [letLabelSubmit, setLetLabelSubmit] = useState(false)
+    const [labelAction, setLabelAction] = useState('create')
+
+    const user = useSelector((state) => state.user.userDetails);
+
+    const dispatch = useDispatch()
     const handleFilterSubmit = (e) => {
         e.preventDefault()
     }
-    const handleLabelSubmit = (e) => {
-        e.preventDefault()
+    const handleLabelCreate = (e) => {
+        if(labelTitle && labelColor){
+            setOpenLabelsModal(false)
+            dispatch(createLabel({title: labelTitle, color: labelColor, favorite: labelAddToFavourites, owner: user._id}))
+        }
+
+    }
+    const handleLabelDelete = (labelId) =>{
+        dispatch(deleteLabel(labelId))
     }
 
+    const handleEdit = (label) => {
+        setLabelTitle(label.title)
+        setLabelColor(label.color)
+        setLabelAddToFavourites(label.favorite)
+        setCurrentLable(label)
+        setLabelAction('update')
+        setOpenLabelsModal(true)
+    }
+    const handleAddToFavorite = (label) => {
+        dispatch(updateLabel({...label, favorite: !label.favorite}))
+    }
+    const handleLabelUpdate = () => {
+        if(labelTitle && labelColor){
+            setOpenLabelsModal(false)
+            dispatch(updateLabel({...currentLabel, title: labelTitle, color: labelColor, favorite: labelAddToFavourites}))
+        }
+    }
 
-    useEffect(() => {}, [openFiltersModal, openLabelsModal])
+    useEffect(() => {
+        if(labelTitle && labelColor){
+            setLetLabelSubmit(true)
+        }
+    }, [openFiltersModal, openLabelsModal, labelTitle, labelColor])
+
     return (
         <div className='accordion-wrapper'>
 
@@ -70,6 +107,7 @@ const Accordion = ({filters, labels}) => {
                         <span><BsFillDropletFill style={{color: filter.color}}/>  {filter.title}</span>
                         <span className='hoverable-icons'>
                             <BiHeart/>
+                            <BsTrash/>
                             <BiEditAlt/>
                         </span>
                     </div>
@@ -85,14 +123,14 @@ const Accordion = ({filters, labels}) => {
                 <BiPlus onClick={() => setOpenLabelsModal(true)}/>
             </div>
 
-            <TransitionsModal closeModal={setOpenLabelsModal} openModal={openLabelsModal} title='Add label'>
-                <form onSubmit={handleLabelSubmit}>
+            <TransitionsModal closeModal={setOpenLabelsModal} action={labelAction === 'create' ? handleLabelCreate : handleLabelUpdate } letAction={letLabelSubmit} openModal={openLabelsModal} title='Add label'>
+                <form>
                     <div className="mb-3">
                         <label htmlFor="labelTitle" className="form-label">Label name</label>
-                        <input type="email" className="form-control" id="labelTitle" value={labelTitle} onChange={e => setLabelTitle(e.target.value)} />
+                        <input type="email" className="form-control" id="labelTitle" value={labelTitle} onChange={e => setLabelTitle(e.target.value)} required/>
                     </div>
                     <span>Label color</span>
-                    <Select setValue={setLabelColor} defaultValue={labelColor} options={colors} />
+                    <Select setValue={setLabelColor} defaultValue={labelColor} options={colors} required />
                     <div className="form-check form-switch" style={{paddingTop: '10px'}}>
                         <input className="form-check-input" type="checkbox" role="switch"   id="filterAddFavourite"  checked={labelAddToFavourites} onChange={()=> setLabelAddToFavourites(prev => !prev)}/>
                         <label className="form-check-label" htmlFor="filterAddFavourite">Add to favourites</label>
@@ -102,12 +140,13 @@ const Accordion = ({filters, labels}) => {
 
 
             {showLabels && labels.map((label) => (
-                <div key={label.title}>
+                <div key={label._id}>
                     <div className='d-flex justify-content-between additional-text'>
                         <span><BsFillTagFill style={{color: label.color}}/>  {label.title}</span>
                         <span className='hoverable-icons'>
-                            <BiHeart/>
-                            <BiEditAlt/>
+                            <BiHeart style={label.favorite && {color: 'red'} } onClick ={(e) => handleAddToFavorite( label)} />  
+                            <BsTrash onClick={(e) => handleLabelDelete(label._id)}/>
+                            <BiEditAlt onClick={(e) => handleEdit(label)}/>
                         </span>
                     </div>
                     <hr/>

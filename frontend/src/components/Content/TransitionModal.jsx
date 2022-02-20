@@ -22,13 +22,15 @@ const style = {
 
 };
 
-export default function TransitionsModal({children, openModal, closeModal, title}) {
+export default function TransitionsModal({children, openModal, closeModal, title, action, letAction}) {
     const [open, setOpen] = useState(openModal);
+    const [disable, setDisable] = useState(!letAction)
     const handleClose = () => closeModal(false);
 
     useEffect(() => {
         setOpen(openModal)
-    }, [openModal])
+        setDisable(!letAction)
+    }, [openModal, letAction])
 
     return (
         <div>
@@ -59,7 +61,7 @@ export default function TransitionsModal({children, openModal, closeModal, title
 
                     <div className="transitionsmodal-footer" >
                         <button style={{ borderColor: "#ccc" }} type="button" className="btn btn-light" onClick={handleClose}>Cancel</button>
-                        <button type="button" className="btn btn-dark" disabled>Add</button>    
+                        <button type="button" className="btn btn-dark" onClick={action} disabled={disable}>Add</button>    
                         
                     </div>
                 </Box>
