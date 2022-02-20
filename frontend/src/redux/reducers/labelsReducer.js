@@ -1,7 +1,7 @@
 import { CREATE_LABEL_FAILURE, CREATE_LABEL_REQUEST, CREATE_LABEL_SUCCESS, DELETE_LABEL_FAILURE, DELETE_LABEL_REQUEST, DELETE_LABEL_SUCCESS, FETCH_ALL_LABELS, LABELS_FAILURE, LABELS_REQUEST, UPDATE_LABEL_FAILURE, UPDATE_LABEL_REQUEST, UPDATE_LABEL_SUCCESS } from "../constants/labelConstants";
 import { initialStore } from "../store";
 
-export const labelsReducer = (state = {labels: []}, action) => {
+export const labelsReducer = (state = initialStore.labelProps, action) => {
     switch(action.type){
         case LABELS_REQUEST:
             return {

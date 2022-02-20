@@ -20,34 +20,39 @@ const ProjectAccordion = ({
   const [projectColor, setProjectColor] = useState(colors[0]);
   const [projectAddToFavourites, setProjectAddToFavourites] = useState(false);
   const dispatch = useDispatch();
+  const [letFormSubmit, setLetFormSubmit] = useState(false)
 
-  useEffect(() => {}, [openProjectsModal]);
+  useEffect(() => {
+    if(projectTitle && projectColor){
+      setLetFormSubmit(true)
+    }
+  }, [openProjectsModal, projectTitle, projectColor]);
   const projectObj = {
     name: projectTitle,
     color: projectColor,
     favorite: projectAddToFavourites,
   };
+
+  const handleSubmit = () => {
+    dispatch(postProject(projectObj));
+  }
   return (
     <div className="accordion-wrapper">
       <TransitionsModal
         closeModal={setOpenProjectsModal}
         openModal={openProjectsModal}
         title="Add project"
+        action={handleSubmit}
+        letAction={letFormSubmit}
       >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log("clicks");
-            dispatch(postProject(projectObj));
-          }}
-        >
+        <form>
           <div className="mb-3">
             <label htmlFor="projectTitle" className="form-label">
               Project name
             </label>
             <input
               required
-              type="email"
+              type="text"
               className="form-control"
               id="projectTitle"
               value={projectTitle}
@@ -59,6 +64,7 @@ const ProjectAccordion = ({
             setValue={setProjectColor}
             defaultValue={projectColor}
             options={colors}
+            required
           />
           <div
             className="form-check form-switch"

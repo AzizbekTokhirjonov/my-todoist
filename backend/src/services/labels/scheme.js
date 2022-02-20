@@ -8,6 +8,7 @@ const LabelSchema = new Schema(
     color: { type: String, required: true },
     favorite: { type: Boolean, default: false },
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    type: {type: String, default: 'label'}
   },
   { timestamps: true }
 );

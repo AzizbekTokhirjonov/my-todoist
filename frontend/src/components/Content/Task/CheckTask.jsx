@@ -78,7 +78,7 @@ export default function CheckTask({ task }) {
               )}
               {task.label && (
                 <span className="text-warning">
-                  <BiLabel /> {task.label}
+                  <BiLabel /> {task.label.title}
                 </span>
               )}
               {!showCalendar ? (

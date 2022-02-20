@@ -11,6 +11,7 @@ export const fetchAllLabels = () => {
                 headers: {
                   "Content-Type": "application/json",
                 },
+                credentials: 'include',
             });
             const data = await response.json();
 
@@ -32,6 +33,7 @@ export const createLabel = (labelObj) => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({...labelObj}),
+                credentials: 'include',
             });
 
             const data = await response.json()
@@ -53,6 +55,7 @@ export const deleteLabel = (labelId) => {
                 headers: {
                   "Content-Type": "application/json",
                 },
+                credentials: 'include',
             });
 
             if(response.ok){
@@ -82,6 +85,7 @@ export const updateLabel = ( labelObj) => {
                 headers: {
                   "Content-Type": "application/json",
                 },
+                credentials: 'include',
                 body: JSON.stringify({...labelObj}),
             });
 
