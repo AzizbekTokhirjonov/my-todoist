@@ -19,10 +19,22 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
+    const user = JSON.parse(req.cookies.user);
     const projects = await ProjectModel.find().populate({
       path: "tasks projectOwner collaborators",
     });
-    res.send(projects);
+    const filteredProjects = projects.filter((project) => {
+      console.log(project);
+      const projectOwner = project.projectOwner._id.toString();
+      const userId = user._id;
+      const collaborators = project.collaborators.map((collaborator) =>
+        collaborator.toString()
+      );
+      if (projectOwner === userId || collaborators.includes(userId)) {
+        return project;
+      }
+    });
+    res.send(filteredProjects);
   } catch (error) {
     console.log(error);
   }

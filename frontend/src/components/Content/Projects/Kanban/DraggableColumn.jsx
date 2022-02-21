@@ -3,9 +3,12 @@ import { Droppable } from "react-beautiful-dnd";
 import DraggableItem from "./DraggableItem";
 import AddTask from "../../Task/AddTask";
 import AddTaskIcon from "../../Task/AddTaskIcon";
+import AddSection from "../../AddSection";
 const DraggableColumn = ({ column, id }) => {
   const [addTask, setAddTask] = useState(false);
   const [hover, setHover] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [section, setSection] = useState("");
   return (
     <div
       style={{
@@ -15,7 +18,21 @@ const DraggableColumn = ({ column, id }) => {
       }}
       key={id}
     >
-      <h5>{column.name}</h5>
+      {editing ? (
+        <div>
+          <AddSection
+            title="addSection"
+            section={section}
+            setSection={setSection}
+            setEditing={setEditing}
+          />
+        </div>
+      ) : (
+        <h5 className="mt-4" onClick={() => setEditing(true)}>
+          {column.name}
+        </h5>
+      )}
+
       <div className="m-2">
         <Droppable droppableId={id}>
           {(provided, snapshot) => {

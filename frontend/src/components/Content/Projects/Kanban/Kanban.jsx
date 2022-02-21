@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
 import DraggableColumn from "./DraggableColumn";
+import { AiFillFolderAdd } from "react-icons/ai";
+import AddSection from "../../AddSection";
 const dummyData = [
   {
     id: uuid(),
@@ -66,16 +68,13 @@ const onDragEnd = (result, columns, setColumns) => {
 
 const Kanban = () => {
   const [columns, setColumns] = useState(columnsData);
-
+  const [editing, setEditing] = useState(false);
+  const [section, setSection] = useState("");
   return (
     <div
-      className="mx-auto"
       style={{
         display: "flex",
-        justifyContent: "center",
         height: "100%",
-        width: 100,
-        margin: "auto 0",
       }}
     >
       <DragDropContext
@@ -84,6 +83,27 @@ const Kanban = () => {
         {Object.entries(columns).map(([id, column]) => {
           return <DraggableColumn id={id} column={column} />;
         })}
+        {editing ? (
+          <div>
+            <AddSection
+              title="addSection"
+              section={section}
+              setSection={setSection}
+              setEditing={setEditing}
+            />
+          </div>
+        ) : (
+          <div
+            onClick={() => setEditing(true)}
+            className="btn btn-light  mt-3"
+            style={{ height: "40px" }}
+          >
+            <span className="my-auto">
+              <AiFillFolderAdd size={25} />
+            </span>
+            Add Section
+          </div>
+        )}
       </DragDropContext>
     </div>
   );

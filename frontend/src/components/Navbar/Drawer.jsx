@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -22,6 +22,8 @@ import { Link } from "react-router-dom";
 import ProjectAccordion from "../Content/Projects/ProjectAccordion";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { BiPlus } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { getProjects } from "../../redux/actions/projectActions";
 const drawerWidth = 300;
 
 const openedMixin = (theme) => ({
@@ -70,13 +72,19 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-const projects = [
-  { title: "Assigned to me", color: "blue" },
-  { title: "High priority", color: "red" },
-];
+
 export default function SideMenu({ open, handleDrawerClose, theme, setOpen }) {
   const [showProjects, setShowProjects] = React.useState(true);
   const [openProjectsModal, setOpenProjectsModal] = React.useState(false);
+  const [projects, setProjects] = useState([]);
+  const projectsList = useSelector((state) => state.projects.list);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
+  useEffect(() => {
+    setProjects(projectsList);
+  }, [projectsList]);
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader sx={{ backgroundColor: "#424242" }}>

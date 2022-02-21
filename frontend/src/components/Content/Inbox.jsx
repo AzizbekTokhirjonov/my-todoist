@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
-import TextField from "@mui/material/TextField";
 import { BsThreeDots, BsSliders } from "react-icons/bs";
 import AddTask from "./Task/AddTask";
 import CheckTask from "./Task/CheckTask";
@@ -10,6 +9,7 @@ import AddTaskIcon from "./Task/AddTaskIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks, postSection } from "../../redux/actions/taskActions";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import AddSection from "./AddSection";
 
 const Inbox = () => {
   const taskList = useSelector((state) => state.tasks.list);
@@ -45,10 +45,6 @@ const Inbox = () => {
         </div>
         <div className="items">
           <ul className="d-flex">
-            <li>
-              <FaRegCommentAlt />
-              <span> Comments</span>
-            </li>
             <li>
               <BsSliders />
               <span> Views</span>
@@ -97,42 +93,7 @@ const Inbox = () => {
         />
       )}
 
-      <div
-        className="add-section mt-4"
-        style={{ height: "10px", width: "100%" }}
-      >
-        <TextField
-          fullWidth
-          id="add-section"
-          label="Add Section"
-          type="text"
-          variant="standard"
-          value={section}
-          onChange={(e) => {
-            setSection(e.target.value);
-          }}
-          tabIndex="0"
-        />
-        <div className="d-flex mt-2">
-          {section.length > 1 ? (
-            <button
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(postSection({ title: section }));
-              }}
-              className="btn btn-secondary btn-sm"
-            >
-              Add Section
-            </button>
-          ) : (
-            <button className="btn btn-secondary btn-sm" disabled>
-              Add Section
-            </button>
-          )}
-          <div className="btn btn-sm">Cancel</div>
-        </div>
-      </div>
+      <AddSection section={section} setSection={setSection} />
     </div>
   );
 };

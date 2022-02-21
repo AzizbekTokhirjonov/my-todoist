@@ -4,6 +4,7 @@ import modalReducer from "./reducers/modal";
 import { userReducer, userSignUpReducer } from "./reducers/user";
 import { taskReducer } from "./reducers/tasks";
 import { labelOpsReducer, labelsReducer } from "./reducers/labelsReducer";
+import { projectReducer } from "./reducers/projectReducer";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const initialStore = {
@@ -18,21 +19,24 @@ export const initialStore = {
   tasks: {
     list: [],
   },
+  projects: {
+    list: [],
+  },
   labelProps: {
     loading: false,
-    labels: []
+    labels: [],
   },
   labelOps: {
     createLabel: {
-      loading: false
+      loading: false,
     },
     deleteLabel: {
-      loading: false
+      loading: false,
     },
     updateLabel: {
-      loading: false
-    }
-  }
+      loading: false,
+    },
+  },
 };
 
 const bigReducer = combineReducers({
@@ -41,7 +45,8 @@ const bigReducer = combineReducers({
   userSignUp: userSignUpReducer,
   tasks: taskReducer,
   labelProps: labelsReducer,
-  labelOps: labelOpsReducer
+  labelOps: labelOpsReducer,
+  projects: projectReducer,
 });
 
 const configureStore = createStore(

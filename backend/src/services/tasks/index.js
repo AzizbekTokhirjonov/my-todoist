@@ -22,18 +22,16 @@ router.post("/", requireAuth, async (req, res, next) => {
 router.get("/", requireAuth, async (req, res, next) => {
   try {
     const user = JSON.parse(req.cookies.user);
-    const tasks = await TaskModel.find().populate({path: 'label'});
+    const tasks = await TaskModel.find().populate({ path: "label" });
     const filteredTasks = tasks.filter((task) => {
       const taskOwner = task.owner.toString();
       const userId = user._id;
-      const watchers = task.watchers.map( (watcher) => watcher.toString());
+      const watchers = task.watchers.map((watcher) => watcher.toString());
       if (taskOwner === userId || watchers.includes(userId)) {
-        return task
+        return task;
       }
     });
 
-    console.log(filteredTasks)
-    
     res.send(filteredTasks);
   } catch (error) {
     console.log(error);

@@ -1,3 +1,10 @@
-.accordion-wrapper ul.drawbar-projects li:hover {
+/* .accordion-wrapper ul.drawbar-projects li:hover {
   background-color: rgb(224, 222, 222);
+} */
+.additional-text {
+  color: rgb(54, 54, 54);
+}
+.hoverable-icons svg {
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
