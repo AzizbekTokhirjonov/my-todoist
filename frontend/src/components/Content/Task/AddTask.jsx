@@ -8,7 +8,7 @@ import Fade from "@mui/material/Fade";
 import CustomDatePicker from "../CustomDatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import Menu from "../Menu";
-import { postTask, updateTask } from "../../../redux/actions/taskActions";
+import { postSubTask, postTask, updateTask } from "../../../redux/actions/taskActions";
 import { format } from "date-fns";
 import { fetchAllLabels } from "../../../redux/actions/labelActions";
 
@@ -42,10 +42,12 @@ const tempPriorityList = [
 
 const AddTask = ({
   setAddTask,
-  task = { title: "", description: "" },
+  task = {title: "", description: ""},
   setEdit,
   title = "",
+  parentTaskId
 }) => {
+
   const [showCalendar, setShowCalendar] = useState(true);
   const [taskTitle, setTaskTitle] = useState(task.title || "");
   const [description, setDescription] = useState(task.description || "");
@@ -66,7 +68,7 @@ const AddTask = ({
   const taskObject = {
     title: taskTitle,
     description,
-    label: taskLabel._id,
+    label: taskLabel._id || {},
     dueDate: new Date(dueDate),
     priority: priority === "" ? "Low" : priority.title,
     owner: user._id,
@@ -255,7 +257,7 @@ const AddTask = ({
           onClick={(e) => {
             e.preventDefault();
             title === "checkTask" || title === "customModal"
-              ? dispatch(updateTask(task._id, taskObject))
+              ? dispatch(updateTask(task._id, taskObject)) : title === 'subPanel' ? dispatch(postSubTask(parentTaskId, taskObject)) 
               : dispatch(postTask(taskObject));
             title === "checkTask" || title === "customModal"
               ? setEdit(false)

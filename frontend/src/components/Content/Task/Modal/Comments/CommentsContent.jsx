@@ -5,7 +5,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import TextField from "@mui/material/TextField";
 
-const CommentsContent = () => {
+const CommentsContent = ({comment}) => {
+
   const [hover, setHover] = useState(false);
   const [edit, setEdit] = useState(false);
   return (
@@ -58,9 +59,9 @@ const CommentsContent = () => {
                 </div>
                 <div className="text">
                   <div className="username">
-                    <b>Azizbek Tokhirjonov</b>
+                    <b>{comment.author}</b>
                   </div>
-                  <div className="comment">Awesome!</div>
+                  <div className="comment">{comment.comment}</div>
                 </div>
               </div>
               <div className="icons d-flex">

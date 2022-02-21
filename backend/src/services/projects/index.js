@@ -24,7 +24,6 @@ router.get("/", async (req, res, next) => {
       path: "tasks projectOwner collaborators",
     });
     const filteredProjects = projects.filter((project) => {
-      console.log(project);
       const projectOwner = project.projectOwner._id.toString();
       const userId = user._id;
       const collaborators = project.collaborators.map((collaborator) =>

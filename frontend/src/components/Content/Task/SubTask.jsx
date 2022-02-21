@@ -4,12 +4,24 @@ import "./task.css";
 import { MdDeleteOutline } from "react-icons/md";
 import CustomDatePicker from "../CustomDatePicker.jsx";
 import AddTask from "./AddTask";
+import { format } from "date-fns";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { deleteSubTask } from "../../../redux/actions/taskActions";
+
 
 export default function SubTask({ subTask }) {
-  const { id, title, description, dueDate } = subTask;
+  const { _id: id, title, description, dueDate } = subTask;
   const [hover, setHover] = useState(false);
   const [edit, setEdit] = useState(false);
   const [showCalendar, setShowCalendar] = useState(true);
+
+  const dispatch = useDispatch()
+  const {openTask} = useSelector(state => state.modalState)
+
+  const handleDelete = (subtaskId) => {
+    dispatch(deleteSubTask(openTask._id, subtaskId))
+  }
 
   return (
     <div>
@@ -57,7 +69,7 @@ export default function SubTask({ subTask }) {
                     onClick={() => setShowCalendar(!showCalendar)}
                   >
                     <span className="text-danger ">
-                      <BiCalendarAlt /> {dueDate}
+                      <BiCalendarAlt /> {format(new Date(dueDate), "dd/MM/yyyy")}
                     </span>
                   </label>
                 ) : (
@@ -78,7 +90,7 @@ export default function SubTask({ subTask }) {
               onClick={() => setEdit(true)}
               style={hover ? { opacity: 1 } : { opacity: 0 }}
             />
-            <MdDeleteOutline style={hover ? { opacity: 1 } : { opacity: 0 }} />
+            <MdDeleteOutline style={hover ? { opacity: 1 } : { opacity: 0 }} onClick={(e) => handleDelete(id)} />
           </div>
         </div>
       )}
