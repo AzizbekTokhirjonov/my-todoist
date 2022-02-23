@@ -11,9 +11,9 @@ const SubPanel = ({ task }) => {
   const [hover, setHover] = useState(false);
   const [openTab, setOpenTab] = useState("sub-tasks");
 
-  const { subTasks, comments } = task;
+  const { subTasks } = task;
 
-  console.log(comments)
+
   return (
     <div className="mt-4">
       <div className="tabs">
@@ -57,7 +57,7 @@ const SubPanel = ({ task }) => {
         </div>
       ) : openTab === "comments" ? (
         <div className="comments panel-items">
-          <Comments comments={comments} />
+          <Comments taskId={task._id} />
         </div>
       ) : (
         <div className="activity panel-items">activity</div>

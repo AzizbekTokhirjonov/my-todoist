@@ -59,7 +59,7 @@ const CommentsContent = ({comment}) => {
                 </div>
                 <div className="text">
                   <div className="username">
-                    <b>{comment.author}</b>
+                    <b>{comment.author.firstName} {comment.author.lastName}</b>
                   </div>
                   <div className="comment">{comment.comment}</div>
                 </div>

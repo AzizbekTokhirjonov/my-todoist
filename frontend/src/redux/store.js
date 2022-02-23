@@ -5,6 +5,7 @@ import { userReducer, userSignUpReducer } from "./reducers/user";
 import { taskReducer } from "./reducers/tasks";
 import { labelOpsReducer, labelsReducer } from "./reducers/labelsReducer";
 import { projectReducer } from "./reducers/projectReducer";
+import commentsOpsReducer from "./reducers/commentsReducers";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const initialStore = {
@@ -37,6 +38,22 @@ export const initialStore = {
       loading: false,
     },
   },
+
+  commentsOps: {
+    comments: [],
+    fetchComments: {
+      loading: false
+    },
+    createComment: {
+      loading: false
+    },
+    updateComment: {
+      loading: false
+    },
+    deleteComment: {
+      loading: false
+    }
+  }
 };
 
 const bigReducer = combineReducers({
@@ -47,6 +64,7 @@ const bigReducer = combineReducers({
   labelProps: labelsReducer,
   labelOps: labelOpsReducer,
   projects: projectReducer,
+  commentsOps:commentsOpsReducer
 });
 
 const configureStore = createStore(

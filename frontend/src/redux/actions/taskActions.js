@@ -135,27 +135,3 @@ export const deleteSubTask = (taskId, subTaskId) => {
   };
 };
 
-
-export const postComment = (taskId,commentObj) => {
-
-  return async (dispatch) => {
-    try {
-      const response = await fetch(`${url}/tasks/${taskId}/comments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(commentObj),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        dispatch(getTasks());
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};

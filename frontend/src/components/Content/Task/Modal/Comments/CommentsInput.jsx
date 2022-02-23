@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import { useDispatch, useSelector } from "react-redux";
-import { postComment } from "../../../../../redux/actions/taskActions";
+import {postComment} from "../../../../../redux/actions/commentsActions"
 
 
 

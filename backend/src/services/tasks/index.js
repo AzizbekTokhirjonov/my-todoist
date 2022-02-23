@@ -139,68 +139,68 @@ router.delete("/:taskId/subtasks/:subTaskId", requireAuth, async (req, res, next
 
 
 
+// *******   !!!CAUTION!!! old comments routes from when they were embedded for future reference
+// router.post("/:taskId/comments", requireAuth, async (req, res, next) => {
+//   try {
+//     const taskId = req.params.taskId
+//     const task = await TaskModel.findById(taskId)
+
+//     if(task){
+//       const commentInput = req.body;
+//       const user = req.cookies.user
+//       const updatedTask = await TaskModel.findByIdAndUpdate(taskId, {
+//         $push: {
+//           comments: {...commentInput, author: user._id}
+//         }
+//       })
+//      res.send(updatedTask);
+//     } else {
+//       next(
+//         createHttpError(404, "Task with id: " + req.params.id + " not found")
+//       );
+//     }
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).send({ error });
+//   }
+// });
+
+
 // comments section
-router.post("/:taskId/comments", requireAuth, async (req, res, next) => {
-  try {
-    const taskId = req.params.taskId
-    const task = await TaskModel.findById(taskId)
+// router.delete("/:taskId/comments/:commentId", requireAuth, async (req, res, next) => {
+//   try {
+//     const {taskId, commentId} = req.params
+//     const task = await TaskModel.findById(taskId)
 
-    if(task){
-      const commentInput = req.body;
-      const user = req.cookies.user
-      const updatedTask = await TaskModel.findByIdAndUpdate(taskId, {
-        $push: {
-          comments: {...commentInput, author: user._id}
-        }
-      })
-     res.send(updatedTask);
-    } else {
-      next(
-        createHttpError(404, "Task with id: " + req.params.id + " not found")
-      );
-    }
+//     if(task){
+//       const user = req.cookies.user
+//       const updatedTask = await TaskModel.updateOne({
+//         _id: taskId,
+//         comments: {
+//           $elemMatch : {
+//             author: user._id
+//           }
+//         }
+//       }, {
+//         $pull: {
+//           comments: {
+//             _id: commentId
+//           }
+//         }
+//       })
+//      res.send(updatedTask);
+//     } else {
+//       next(
+//         createHttpError(404, "Task with id: " + req.params.id + " not found")
+//       );
+//     }
 
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({ error });
-  }
-});
-
-
-// comments section
-router.delete("/:taskId/comments/:commentId", requireAuth, async (req, res, next) => {
-  try {
-    const {taskId, commentId} = req.params
-    const task = await TaskModel.findById(taskId)
-
-    if(task){
-      const user = req.cookies.user
-      const updatedTask = await TaskModel.updateOne({
-        _id: taskId,
-        comments: {
-          $elemMatch : {
-            author: user._id
-          }
-        }
-      }, {
-        $pull: {
-          comments: {
-            _id: commentId
-          }
-        }
-      })
-     res.send(updatedTask);
-    } else {
-      next(
-        createHttpError(404, "Task with id: " + req.params.id + " not found")
-      );
-    }
-
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({ error });
-  }
-});
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).send({ error });
+//   }
+// });
 
 
 
