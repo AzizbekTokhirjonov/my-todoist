@@ -53,6 +53,57 @@ router.get('/:taskId/comments', requireAuth, async (req, res, next) => {
 })
 
 
+// route -> POST /tasks/:taskId/comments/:commentId
+router.put('/:taskId/comments/:commentId', requireAuth, async (req, res, next) => {
+    const {taskId, commentId} = req.params
+    const user = JSON.parse(req.cookies.user) 
+    const taskExists = await TaskModel.exists({_id: taskId})
+    if (taskExists){
+        // TODO: when project level access is established, write code to 
+        // verify whether the user updating the comment is in 
+        // project collaborators list 
+        try {
+            const {comment} = req.body
+            const response = await CommentModel.updateOne({_id: commentId, author: user._id}, { comment: comment })
+            if(response.acknowledged){
+                res.status(200).json({message: 'Resource has been successfully updated!'})
+            } else {
+                res.status(404).json({error: 'Something went wrong! This could be because the resource you accessed might not exist or you don`t have permission to do this operation'})
+            }    
+        } catch (error) {
+            console.log(`ERROR WHILE POSTING COMMENT: ${error}`)
+            res.status(500).json({error: 'Internal server error'})  
+        }
+    } else {
+        next(createHttpError(404, "Task with id: " + taskId + " not found"));
+    }
+})
+
+
+
+// route -> DELETE /tasks/:taskId/comments/:commentId
+router.delete('/:taskId/comments/:commentId', requireAuth, async (req, res, next) => {
+    const {taskId, commentId} = req.params
+    const user = JSON.parse(req.cookies.user) 
+    const taskExists = await TaskModel.exists({_id: taskId})
+    if (taskExists){
+        // TODO: when project level access is established, write code to 
+        // verify whether the user updating the comment is in 
+        // project collaborators list 
+        try {
+            await CommentModel.deleteOne({_id: commentId, author: user._id})
+            res.status(204).json({message: 'Resource has been successfully deleted!'})
+        } catch (error) {
+            console.log(`ERROR WHILE POSTING COMMENT: ${error}`)
+            res.status(500).json({error: 'Internal server error'})  
+        }
+    } else {
+        next(createHttpError(404, "Task with id: " + taskId + " not found"));
+    }
+})
+
+
+
 
 
 export default router

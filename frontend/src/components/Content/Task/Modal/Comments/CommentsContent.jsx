@@ -4,15 +4,28 @@ import { BiEditAlt } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import TextField from "@mui/material/TextField";
+import {useDispatch, useSelector} from "react-redux"
+import {deleteComment, updateComment} from "../../../../../redux/actions/commentsActions"
 
-const CommentsContent = ({comment}) => {
+const CommentsContent = ({taskId, comment}) => {
 
   const [hover, setHover] = useState(false);
   const [edit, setEdit] = useState(false);
+
+  const [commentText, setCommentText] = useState(comment.comment)
+
+  const dispatch = useDispatch()
+  const {userDetails} = useSelector(state => state.user)
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+    setEdit(false)
+    dispatch(updateComment(taskId, comment._id, {comment: commentText}))
+  }
+
   return (
     <>
       {edit ? (
-        <div>
+        <form onSubmit={handleFormSubmit}>
           <div id="add-task-card">
             <div className="description">
               <TextField
@@ -22,15 +35,15 @@ const CommentsContent = ({comment}) => {
                 variant="standard"
                 fullWidth
                 InputProps={{ disableUnderline: true }}
+                value={commentText}
+                onChange={e => setCommentText(e.target.value)}
               />
             </div>
           </div>
           <div>
             <button
               className="btn btn-sm btn-dark"
-              onClick={() => {
-                setEdit(false);
-              }}
+              type="submit"
             >
               Update
             </button>
@@ -44,7 +57,7 @@ const CommentsContent = ({comment}) => {
               Cancel
             </button>
           </div>
-        </div>
+        </form>
       ) : (
         <div>
           <ul>
@@ -72,9 +85,10 @@ const CommentsContent = ({comment}) => {
                 >
                   <BiEditAlt style={hover ? { opacity: 1 } : { opacity: 0 }} />
                 </div>
-                <MdDeleteOutline
+                {userDetails._id === comment.author._id && <MdDeleteOutline
                   style={hover ? { opacity: 1 } : { opacity: 0 }}
-                />
+                  onClick={e => dispatch(deleteComment(taskId, comment._id))}
+                />}
                 <GrEmoji style={hover ? { opacity: 1 } : { opacity: 0 }} />
               </div>
             </li>

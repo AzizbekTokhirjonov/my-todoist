@@ -24,7 +24,7 @@ const Comments = ({taskId}) => {
   return (
     <div id="comments-container">
       <div id="comments-content">
-        { createComment.loading || updateComment.loading || deleteComment.loading || fetchComments.loading ? <Loader/> : comments.map(comment => <CommentsContent comment={comment} key={comment._id}/>)}
+        { createComment.loading || updateComment.loading || deleteComment.loading || fetchComments.loading ? <Loader/> : comments.map(comment => <CommentsContent comment={comment} taskId={taskId} key={comment._id}/>)}
       </div>
       <div id="comments-input">
         <CommentsInput />
