@@ -1,33 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
 import DraggableColumn from "./DraggableColumn";
 import { AiFillFolderAdd } from "react-icons/ai";
 import AddSection from "../../AddSection";
-const dummyData = [
-  {
-    id: uuid(),
-    content: "First Task",
-  },
-  {
-    id: uuid(),
-    content: "Second Task",
-  },
-];
-const columnsData = {
-  [uuid()]: {
-    name: "To Do",
-    items: dummyData,
-  },
-  [uuid()]: {
-    name: "In Progress",
-    items: [],
-  },
-  [uuid()]: {
-    name: "Done",
-    items: [],
-  },
-};
+import { withRouter } from "react-router-dom";
+import { useSelector } from "react-redux";
+const url = process.env.REACT_APP_DEV_URL;
+
+// const dummyData = [
+//   {
+//     id: uuid(),
+//     content: "First Task",
+//   },
+//   {
+//     id: uuid(),
+//     content: "Second Task",
+//   },
+// ];
+// let columnsData = {
+//   // [uuid()]: {
+//   //   name: "To Do",
+//   //   items: dummyData,
+//   // },
+//   // [uuid()]: {
+//   //   name: "In Progress",
+//   //   items: [],
+//   // },
+//   // [uuid()]: {
+//   //   name: "Done",
+//   //   items: [],
+//   // },
+// };
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -36,19 +40,19 @@ const onDragEnd = (result, columns, setColumns) => {
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destinationColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.items];
-    const destItems = [...destinationColumn.items];
+    const sourceItems = [...sourceColumn.tasks];
+    const destItems = [...destinationColumn.tasks];
     const [removed] = sourceItems.splice(source.index, 1);
     destItems.splice(destination.index, 0, removed);
     setColumns({
       ...columns,
       [source.droppableId]: {
         ...sourceColumn,
-        items: sourceItems,
+        tasks: sourceItems,
       },
       [destination.droppableId]: {
         ...destinationColumn,
-        items: destItems,
+        tasks: destItems,
       },
     });
   } else {
@@ -67,9 +71,19 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 const Kanban = () => {
-  const [columns, setColumns] = useState(columnsData);
+  const [columns, setColumns] = useState({});
   const [editing, setEditing] = useState(false);
+  const [project, setProject] = useState(null);
   const [section, setSection] = useState("");
+
+  const state = useSelector((state) => state.projects);
+  const { projectSections, projectFromState } = state;
+  console.log(projectSections);
+  useEffect(() => {
+    setProject(projectFromState);
+    setColumns(projectSections);
+  }, [state]);
+
   return (
     <div
       style={{
@@ -77,6 +91,7 @@ const Kanban = () => {
         height: "100%",
       }}
     >
+      {project && <h4>{project.name}</h4>}
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
       >
@@ -85,12 +100,15 @@ const Kanban = () => {
         })}
         {editing ? (
           <div>
-            <AddSection
-              title="addSection"
-              section={section}
-              setSection={setSection}
-              setEditing={setEditing}
-            />
+            {project && (
+              <AddSection
+                title="addSection"
+                project={project}
+                section={section}
+                setSection={setSection}
+                setEditing={setEditing}
+              />
+            )}
           </div>
         ) : (
           <div
@@ -109,4 +127,4 @@ const Kanban = () => {
   );
 };
 
-export default Kanban;
+export default withRouter(Kanban);

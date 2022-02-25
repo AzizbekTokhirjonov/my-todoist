@@ -4,6 +4,7 @@ import Select from "../FilterScreen/Select";
 import { useDispatch } from "react-redux";
 import "./style.css";
 import {
+  addProjectToState,
   getProjects,
   postProject,
   updateProject,
@@ -120,9 +121,10 @@ const ProjectAccordion = ({
 
       <ul className="ml-5 w-100 drawbar-projects">
         {showProjects &&
+          projects &&
           projects.map((project) => (
-            <Link key={project._id} to="/projects/kanban">
-              <li>
+            <Link key={project._id} to={`/projects/kanban/${project._id}`}>
+              <li onClick={() => dispatch(addProjectToState(project))}>
                 <div className="d-flex justify-content-between additional-text">
                   <div style={{ fontSize: "13px" }}>
                     <BiRadioCircleMarked style={{ color: project.color }} />

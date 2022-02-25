@@ -29,7 +29,7 @@ const Home = () => {
           <Route path="/upcoming" exact component={Upcoming} />
           <Route path="/filters" exact component={Filters} />
           <Route path="/projects" exact component={Project} />
-          <Route path="/projects/kanban" exact component={Kanban} />
+          <Route path="/projects/kanban/:id" exact component={Kanban} />
         </div>
       </Router>
     </div>

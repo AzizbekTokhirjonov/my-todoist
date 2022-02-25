@@ -1,4 +1,12 @@
-import { GET_PROJECTS } from "../constants/projectConstants.js";
+import {
+  ADD_PROJECT_SECTIONS,
+  GET_PROJECTS,
+  REMOVE_PROJECT_SECTIONS,
+  ADD_PROJECT,
+  REMOVE_PROJECT,
+} from "../constants/projectConstants.js";
+import { v4 as uuid } from "uuid";
+
 const url = process.env.REACT_APP_DEV_URL;
 export const postProject = (projectObj) => {
   return async (dispatch) => {
@@ -18,6 +26,24 @@ export const postProject = (projectObj) => {
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+};
+
+export const addProjectToState = (project) => {
+  return async (dispatch) => {
+    try {
+      const columnsData = {};
+      const sections = project.sections;
+      for (let section of sections) {
+        columnsData[section._id] = section;
+      }
+      dispatch({ type: REMOVE_PROJECT });
+      dispatch({ type: REMOVE_PROJECT_SECTIONS });
+      dispatch({ type: ADD_PROJECT, payload: project });
+      dispatch({ type: ADD_PROJECT_SECTIONS, payload: columnsData });
+    } catch (error) {
+      console.log(error);
     }
   };
 };

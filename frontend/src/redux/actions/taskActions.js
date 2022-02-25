@@ -1,7 +1,7 @@
 import { GET_TASKS } from "../constants/taskConstants";
 import { handleOpen } from "./actions";
+import { getProject, updateProject } from "./projectActions";
 const url = process.env.REACT_APP_DEV_URL;
-
 
 export const getTasks = () => {
   return async (dispatch) => {
@@ -22,7 +22,7 @@ export const getTasks = () => {
 };
 
 export const postTask = (taskObject) => {
-  console.log(taskObject)
+  console.log(taskObject);
   return async (dispatch) => {
     try {
       const response = await fetch(`${url}/tasks/`, {
@@ -67,32 +67,7 @@ export const updateTask = (id, taskObject) => {
   };
 };
 
-export const postSection = (sectionObj) => {
-  return async (dispatch) => {
-    try {
-      const response = await fetch(`${url}/sections/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(sectionObj),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        dispatch(getTasks());
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
-
-
 export const postSubTask = (taskId, subTaskObject) => {
-
   return async (dispatch) => {
     try {
       const response = await fetch(`${url}/tasks/${taskId}/subtasks`, {
@@ -116,9 +91,7 @@ export const postSubTask = (taskId, subTaskObject) => {
   };
 };
 
-
 export const deleteSubTask = (taskId, subTaskId) => {
-
   return async (dispatch) => {
     try {
       await fetch(`${url}/tasks/${taskId}/subtasks/${subTaskId}`, {
@@ -134,4 +107,3 @@ export const deleteSubTask = (taskId, subTaskId) => {
     }
   };
 };
-

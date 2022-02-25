@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
+const SectionSchema = new Schema({
+  title: { type: String, required: true },
+  tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+});
 const ProjectSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -15,7 +19,7 @@ const ProjectSchema = new Schema(
     },
     collaborators: [{ type: Schema.Types.ObjectId, ref: "User" }],
     invitees: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    sections: [{ type: Schema.Types.ObjectId, ref: "Section" }],
+    sections: { default: [], type: [SectionSchema] },
   },
   { timestamps: true }
 );

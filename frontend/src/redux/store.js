@@ -22,6 +22,8 @@ export const initialStore = {
   },
   projects: {
     list: [],
+    projectSections: {},
+    projectFromState: {},
   },
   labelProps: {
     loading: false,
@@ -42,18 +44,18 @@ export const initialStore = {
   commentsOps: {
     comments: [],
     fetchComments: {
-      loading: false
+      loading: false,
     },
     createComment: {
-      loading: false
+      loading: false,
     },
     updateComment: {
-      loading: false
+      loading: false,
     },
     deleteComment: {
-      loading: false
-    }
-  }
+      loading: false,
+    },
+  },
 };
 
 const bigReducer = combineReducers({
@@ -64,7 +66,7 @@ const bigReducer = combineReducers({
   labelProps: labelsReducer,
   labelOps: labelOpsReducer,
   projects: projectReducer,
-  commentsOps:commentsOpsReducer
+  commentsOps: commentsOpsReducer,
 });
 
 const configureStore = createStore(

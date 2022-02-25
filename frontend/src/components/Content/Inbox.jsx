@@ -83,7 +83,7 @@ const Inbox = () => {
         </Droppable>
       </DragDropContext>
 
-      {addTask ? (
+      {/* {addTask ? (
         <AddTask setAddTask={setAddTask} />
       ) : (
         <AddTaskIcon
@@ -93,7 +93,7 @@ const Inbox = () => {
         />
       )}
 
-      <AddSection section={section} setSection={setSection} />
+      <AddSection project={""} section={section} setSection={setSection} /> */}
     </div>
   );
 };

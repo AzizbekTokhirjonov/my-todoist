@@ -29,7 +29,7 @@ const DraggableColumn = ({ column, id }) => {
         </div>
       ) : (
         <h5 className="mt-4" onClick={() => setEditing(true)}>
-          {column.name}
+          {column.title}
         </h5>
       )}
 
@@ -47,7 +47,7 @@ const DraggableColumn = ({ column, id }) => {
                   minHeight: 50,
                 }}
               >
-                {column.items.map((item, index) => {
+                {column.tasks.map((item, index) => {
                   return (
                     <div key={item.id}>
                       <DraggableItem item={item} index={index} id={id} />
