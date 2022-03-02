@@ -26,7 +26,7 @@ export default function SubTask({ subTask }) {
   return (
     <div>
       {edit ? (
-        <AddTask task={subTask} setEdit={setEdit} title="checkTask" />
+        <AddTask task={subTask} setEdit={setEdit} title="subTaskEdit" parentTaskId={openTask._id} />
       ) : (
         <div
           className="d-flex justify-content-between wrapper"

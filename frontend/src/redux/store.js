@@ -6,6 +6,7 @@ import { taskReducer } from "./reducers/tasks";
 import { labelOpsReducer, labelsReducer } from "./reducers/labelsReducer";
 import { projectReducer } from "./reducers/projectReducer";
 import commentsOpsReducer from "./reducers/commentsReducers";
+import subTasksReducer from "./reducers/subTasksReducer";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const initialStore = {
@@ -56,6 +57,21 @@ export const initialStore = {
       loading: false,
     },
   },
+  subtasksOps: {
+    subtasks: [],
+    fetchSubtasks: {
+      loading: false,
+    },
+    createSubtask: {
+      loading: false,
+    },
+    updateSubtask: {
+      loading: false,
+    },
+    deleteSubtask: {
+      loading: false,
+    },
+  },
 };
 
 const bigReducer = combineReducers({
@@ -67,6 +83,7 @@ const bigReducer = combineReducers({
   labelOps: labelOpsReducer,
   projects: projectReducer,
   commentsOps: commentsOpsReducer,
+  subtasksOps: subTasksReducer
 });
 
 const configureStore = createStore(

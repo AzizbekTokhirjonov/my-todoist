@@ -8,7 +8,7 @@ import Fade from "@mui/material/Fade";
 import CustomDatePicker from "../CustomDatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import Menu from "../Menu";
-import { postSubTask, postTask, updateTask } from "../../../redux/actions/taskActions";
+import { postSubTask, postTask, updateSubTask, updateTask } from "../../../redux/actions/taskActions";
 import { format } from "date-fns";
 import { fetchAllLabels } from "../../../redux/actions/labelActions";
 
@@ -107,6 +107,10 @@ const AddTask = ({
     }
     case "customModal": {
       buttonTitle = "Save";
+      break;
+    }
+    case "subTaskEdit": {
+      buttonTitle = "Save"
       break;
     }
     default: {
@@ -256,12 +260,8 @@ const AddTask = ({
           className="btn btn-sm btn-secondary"
           onClick={(e) => {
             e.preventDefault();
-            title === "checkTask" || title === "customModal"
-              ? dispatch(updateTask(task._id, taskObject)) : title === 'subPanel' ? dispatch(postSubTask(parentTaskId, taskObject)) 
-              : dispatch(postTask(taskObject));
-            title === "checkTask" || title === "customModal"
-              ? setEdit(false)
-              : setAddTask(false);
+            title === "checkTask" || title === "customModal" ? dispatch(updateTask(task._id, taskObject)) : title === 'subPanel' ? dispatch(postSubTask(parentTaskId, taskObject)) : title="subTaskEdit" ? dispatch(updateSubTask(parentTaskId, taskObject, task._id)) : dispatch(postTask(taskObject));
+            title === "checkTask" || title === "customModal" || title === "subTaskEdit"  ? setEdit(false) : setAddTask(false);
           }}
         >
           {buttonTitle}

@@ -53,7 +53,7 @@ router.get('/:taskId/comments', requireAuth, async (req, res, next) => {
 })
 
 
-// route -> POST /tasks/:taskId/comments/:commentId
+// route -> PUT /tasks/:taskId/comments/:commentId
 router.put('/:taskId/comments/:commentId', requireAuth, async (req, res, next) => {
     const {taskId, commentId} = req.params
     const user = JSON.parse(req.cookies.user) 
@@ -92,9 +92,9 @@ router.delete('/:taskId/comments/:commentId', requireAuth, async (req, res, next
         // project collaborators list 
         try {
             await CommentModel.deleteOne({_id: commentId, author: user._id})
-            res.status(204).json({message: 'Resource has been successfully deleted!'})
+            res.json({message: 'Resource has been successfully deleted!'})
         } catch (error) {
-            console.log(`ERROR WHILE POSTING COMMENT: ${error}`)
+            console.log(`BACKEND ERROR WHILE DELETING COMMENT: ${error}`)
             res.status(500).json({error: 'Internal server error'})  
         }
     } else {

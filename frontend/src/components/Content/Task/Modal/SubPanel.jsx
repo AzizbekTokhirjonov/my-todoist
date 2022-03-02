@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddTaskIcon from "../AddTaskIcon";
 import AddTask from "../AddTask";
 import { Nav } from "react-bootstrap";
 import Comments from "./Comments/Comments";
 import "./modal.css";
 import SubTask from "../SubTask";
+import { useSelector, useDispatch } from "react-redux";
+import { getSubTasks } from "../../../../redux/actions/taskActions";
+import Loader from "../../../Loader";
+
 
 const SubPanel = ({ task }) => {
   const [addSubTask, setSubAddTask] = useState(false);
   const [hover, setHover] = useState(false);
   const [openTab, setOpenTab] = useState("sub-tasks");
 
-  const { subTasks } = task;
-
+  const {subtasks, fetchSubtasks, createSubtask, updateSubtask, deleteSubtask} = useSelector(state => state.subtasksOps)
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(getSubTasks(task._id))
+  },[dispatch, task])
 
   return (
     <div className="mt-4">
@@ -37,8 +45,8 @@ const SubPanel = ({ task }) => {
       </div>
       {openTab === "sub-tasks" ? (
         <div className="sub-tasks panel-items">
-          {subTasks &&
-            subTasks.map((subTask) => (
+          { fetchSubtasks.loading || createSubtask.loading || updateSubtask.loading || deleteSubtask.loading ? <Loader/> : subtasks &&
+            subtasks.map((subTask) => (
               <div key={subTask._id}>
                 <SubTask subTask={subTask} />
                 <hr />

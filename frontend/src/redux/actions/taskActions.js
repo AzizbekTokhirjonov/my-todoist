@@ -1,3 +1,5 @@
+import { CREATE_COMMENT_FAILURE } from "../constants/commentConstants";
+import { CREATE_SUBTASK_REQUEST, CREATE_SUBTASK_SUCCESS, DELETE_SUBTASK_FAILURE, DELETE_SUBTASK_REQUEST, DELETE_SUBTASK_SUCCESS, FETCH_SUBTASKS_FAILURE, FETCH_SUBTASKS_REQUEST, FETCH_SUBTASKS_SUCCESS, UPDATE_SUBTASK_FAILURE, UPDATE_SUBTASK_REQUEST, UPDATE_SUBTASK_SUCCESS } from "../constants/subtaskConstants";
 import { GET_TASKS } from "../constants/taskConstants";
 import { handleOpen } from "./actions";
 import { getProject, updateProject } from "./projectActions";
@@ -70,23 +72,39 @@ export const updateTask = (id, taskObject) => {
 export const postSubTask = (taskId, subTaskObject) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${url}/tasks/${taskId}/subtasks`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(subTaskObject),
-      });
-
-      if (response.ok) {
+        dispatch({type: CREATE_SUBTASK_REQUEST})
+        const response = await fetch(`${url}/tasks/${taskId}/subtasks`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({...subTaskObject, parentTask: taskId}),
+        });
         const data = await response.json();
-        console.log(data);
-        dispatch(getTasks());
-        // dispatch(handleOpen(taskId))
-      }
+        dispatch({type: CREATE_SUBTASK_SUCCESS, payload: data})  
+        dispatch(getSubTasks(taskId))    
     } catch (err) {
-      console.log(err);
+        dispatch({type: CREATE_COMMENT_FAILURE, payload: err})
+    }
+  };
+};
+
+export const getSubTasks = (taskId) => {
+  return async (dispatch) => {
+    try {
+        dispatch({type: FETCH_SUBTASKS_REQUEST})
+        const response = await fetch(`${url}/tasks/${taskId}/subtasks`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await response.json();
+        dispatch({type: FETCH_SUBTASKS_SUCCESS, payload: data})      
+    } catch (err) {
+        dispatch({type: FETCH_SUBTASKS_FAILURE, payload: err})
     }
   };
 };
@@ -94,16 +112,41 @@ export const postSubTask = (taskId, subTaskObject) => {
 export const deleteSubTask = (taskId, subTaskId) => {
   return async (dispatch) => {
     try {
-      await fetch(`${url}/tasks/${taskId}/subtasks/${subTaskId}`, {
+      dispatch({type: DELETE_SUBTASK_REQUEST})
+      const response = await fetch(`${url}/tasks/${taskId}/subtasks/${subTaskId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
-      dispatch(getTasks());
+      const data = await response.json()
+      dispatch({type: DELETE_SUBTASK_SUCCESS, payload: data})
+      dispatch(getSubTasks(taskId))
     } catch (err) {
-      console.log(err);
+      dispatch({type: DELETE_SUBTASK_FAILURE, payload: err})
+    }
+  };
+};
+
+
+export const updateSubTask = (taskId, subTaskObject, subtaskId) => {
+  return async (dispatch) => {
+    try {
+        dispatch({type: UPDATE_SUBTASK_REQUEST})
+        const response = await fetch(`${url}/tasks/${taskId}/subtasks/${subtaskId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({...subTaskObject, parentTask: taskId}),
+        });
+        const data = await response.json();
+        dispatch({type: UPDATE_SUBTASK_SUCCESS, payload: data})  
+        dispatch(getSubTasks(taskId))    
+    } catch (err) {
+        dispatch({type: UPDATE_SUBTASK_FAILURE, payload: err})
     }
   };
 };

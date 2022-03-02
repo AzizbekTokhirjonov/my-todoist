@@ -52,7 +52,6 @@ export const postComment = (taskId, commentObj) => {
 
   
 export const updateComment = (taskId, commentId, commentObj) => {
-  
   return async (dispatch) => {
     try {
       dispatch({type: UPDATE_COMMENT_REQUEST})
@@ -64,7 +63,6 @@ export const updateComment = (taskId, commentId, commentObj) => {
         credentials: "include",
         body: JSON.stringify(commentObj),
       });
-  
           const data = await response.json();
           dispatch({type: UPDATE_COMMENT_SUCCESS, payload: data})
           dispatch((fetchCommentsAction(taskId)))
@@ -77,7 +75,6 @@ export const updateComment = (taskId, commentId, commentObj) => {
 
 
 export const deleteComment = (taskId, commentId) => {
-  
   return async (dispatch) => {
     try {
       dispatch({type: DELETE_COMMENT_REQUEST})
@@ -92,7 +89,7 @@ export const deleteComment = (taskId, commentId) => {
         dispatch({type: DELETE_COMMENT_SUCCESS, payload: data})  
         dispatch((fetchCommentsAction(taskId)))
     } catch (err) {
-      console.log(`ERROR RECEIVED ON UPDATECOMMENT ACTION: ${err}`);     // <- TO BE DELETED IN PROD
+      console.log(`ERROR RECEIVED ON DELETECOMMENT ACTION: ${err}`);     // <- TO BE DELETED IN PROD
       dispatch({type: DELETE_COMMENT_FAILURE, payload: err})
     }
   };

@@ -23,7 +23,7 @@ router.get("/", requireAuth, async (req, res, next) => {
     const user = JSON.parse(req.cookies.user);
 
     // TODO : Find way to populate author value inside array of comments in array of tasks
-    const tasks = await TaskModel.find().populate({ path: "label" })
+    const tasks = await TaskModel.find().populate({ path: "label subTasks" })
     const filteredTasks = tasks.filter((task) => {
       const taskOwner = task.owner.toString();
       const userId = user._id;
@@ -32,6 +32,8 @@ router.get("/", requireAuth, async (req, res, next) => {
         return task;
       }
     });
+
+    console.log(filteredTasks)
     res.send(filteredTasks);
   } catch (error) {
     console.log(error);
@@ -84,57 +86,57 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
 //Create subtask
 
 
-router.post("/:taskId/subtasks", requireAuth, async (req, res, next) => {
-  try {
-    const taskId = req.params.taskId
-    console.log(`fucking task id`, taskId)
-    const task = await TaskModel.findById(taskId)
+// router.post("/:taskId/subtasks", requireAuth, async (req, res, next) => {
+//   try {
+//     const taskId = req.params.taskId
+//     console.log(`fucking task id`, taskId)
+//     const task = await TaskModel.findById(taskId)
 
-    if(task){
-      const newTaskInput = req.body;
-      const user = req.cookies.user
-      const updatedTask = await TaskModel.findByIdAndUpdate(taskId, {
-        $push: {
-          subTasks: {...newTaskInput, owner: user._id}
-        }
-      })
-     res.send(updatedTask);
-    } else {
-      next(
-        createHttpError(404, "Task with id: " + req.params.id + " not found")
-      );
-    }
+//     if(task){
+//       const newTaskInput = req.body;
+//       const user = req.cookies.user
+//       const updatedTask = await TaskModel.findByIdAndUpdate(taskId, {
+//         $push: {
+//           subTasks: {...newTaskInput, owner: user._id}
+//         }
+//       })
+//      res.send(updatedTask);
+//     } else {
+//       next(
+//         createHttpError(404, "Task with id: " + req.params.id + " not found")
+//       );
+//     }
 
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({ error });
-  }
-});
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).send({ error });
+//   }
+// });
 
 
-router.delete("/:taskId/subtasks/:subTaskId", requireAuth, async (req, res, next) => {
-  try {
-    const {taskId, subTaskId} = req.params
-    const task = await TaskModel.findById(taskId)
+// router.delete("/:taskId/subtasks/:subTaskId", requireAuth, async (req, res, next) => {
+//   try {
+//     const {taskId, subTaskId} = req.params
+//     const task = await TaskModel.findById(taskId)
 
-    if(task){
-      const updatedTask = await TaskModel.findByIdAndUpdate(taskId, {
-        $pull: {
-          subTasks: {_id: subTaskId}
-        }
-      })
-      res.send({updatedTask})
-    }else {
-      next(
-        createHttpError(404, "Task with id: " + req.params.id + " not found")
-      );
-    }
+//     if(task){
+//       const updatedTask = await TaskModel.findByIdAndUpdate(taskId, {
+//         $pull: {
+//           subTasks: {_id: subTaskId}
+//         }
+//       })
+//       res.send({updatedTask})
+//     }else {
+//       next(
+//         createHttpError(404, "Task with id: " + req.params.id + " not found")
+//       );
+//     }
    
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({ error });
-  }
-});
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).send({ error });
+//   }
+// });
 
 
 
