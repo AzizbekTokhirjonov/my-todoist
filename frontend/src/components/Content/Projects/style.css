@@ -4,7 +4,11 @@
 .additional-text {
   color: rgb(54, 54, 54);
 }
-.hoverable-icons svg {
-  padding-top: 3px;
-  padding-bottom: 3px;
+.hoverable-icons div svg {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.hoverable-icons div svg:hover {
+  background-color: rgb(224, 222, 222);
 }

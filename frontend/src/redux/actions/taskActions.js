@@ -1,6 +1,7 @@
 import { GET_TASKS } from "../constants/taskConstants";
 import { handleOpen } from "./actions";
 import { getProject, updateProject } from "./projectActions";
+import { getSections, postSectionTask, updateSection } from "./sectionActions";
 const url = process.env.REACT_APP_DEV_URL;
 
 export const getTasks = () => {
@@ -21,7 +22,7 @@ export const getTasks = () => {
   };
 };
 
-export const postTask = (taskObject) => {
+export const postTask = (taskObject, section, project) => {
   console.log(taskObject);
   return async (dispatch) => {
     try {
@@ -35,8 +36,11 @@ export const postTask = (taskObject) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+
         dispatch(getTasks());
+        if (section) {
+          dispatch(postSectionTask(section._id, data._id, project));
+        }
       }
     } catch (err) {
       console.log(err);
@@ -44,7 +48,7 @@ export const postTask = (taskObject) => {
   };
 };
 
-export const updateTask = (id, taskObject) => {
+export const updateTask = (id, taskObject, project) => {
   return async (dispatch) => {
     try {
       const response = await fetch(`${url}/tasks/${id}`, {
@@ -60,6 +64,9 @@ export const updateTask = (id, taskObject) => {
         console.log(data);
         dispatch(handleOpen(data));
         dispatch(getTasks());
+        if (project) {
+          dispatch(getSections(project._id));
+        }
       }
     } catch (err) {
       console.log(err);

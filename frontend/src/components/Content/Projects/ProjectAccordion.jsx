@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
+import { getSections } from "../../../redux/actions/sectionActions";
 const colors = ["blue", "green", "red", "pink", "yellow"];
 const url = process.env.REACT_APP_DEV_URL;
 const ProjectAccordion = ({
@@ -124,7 +125,12 @@ const ProjectAccordion = ({
           projects &&
           projects.map((project) => (
             <Link key={project._id} to={`/projects/kanban/${project._id}`}>
-              <li onClick={() => dispatch(addProjectToState(project))}>
+              <li
+                onClick={() => {
+                  dispatch(addProjectToState(project));
+                  dispatch(getSections(project._id));
+                }}
+              >
                 <div className="d-flex justify-content-between additional-text">
                   <div style={{ fontSize: "13px" }}>
                     <BiRadioCircleMarked style={{ color: project.color }} />

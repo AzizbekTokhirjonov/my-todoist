@@ -49,14 +49,19 @@ const DraggableColumn = ({ column, id }) => {
               >
                 {column.tasks.map((item, index) => {
                   return (
-                    <div key={item.id}>
-                      <DraggableItem item={item} index={index} id={id} />
+                    <div key={item._id}>
+                      <DraggableItem
+                        item={item}
+                        project={column}
+                        index={index}
+                        id={id}
+                      />
                     </div>
                   );
                 })}
                 {provided.placeholder}
                 {addTask ? (
-                  <AddTask setAddTask={setAddTask} />
+                  <AddTask section={column} setAddTask={setAddTask} />
                 ) : (
                   <AddTaskIcon
                     setAddTask={setAddTask}

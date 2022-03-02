@@ -1,10 +1,37 @@
+import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { BsThreeDots } from "react-icons/bs";
+import { BiEditAlt } from "react-icons/bi";
+import { MdDeleteOutline } from "react-icons/md";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-const DraggableItem = ({ item, index, id }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { getTasks } from "../../../../redux/actions/taskActions.js";
+import AddTask from "../../Task/AddTask.jsx";
+import {
+  deleteSectionTask,
+  getSections,
+} from "../../../../redux/actions/sectionActions.js";
+const url = process.env.REACT_APP_DEV_URL;
+
+const DraggableItem = ({ item, index, id, project }) => {
+  const [edit, setEdit] = useState(false);
+  const dispatch = useDispatch();
+  const projectFromState = useSelector(
+    (state) => state.projects.projectFromState
+  );
+  const deleteTask = async (id, project) => {
+    console.log(`${url}/tasks/${id}`);
+    const response = await fetch(`${url}/tasks/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (response.ok) {
+      dispatch(getSections(project._id));
+    }
+  };
   return (
-    <Draggable key={item.id} draggableId={item.id} index={index}>
+    <Draggable key={item._id} draggableId={item._id} index={index}>
       {(provided, snapshot) => {
         return (
           <Box
@@ -31,17 +58,37 @@ const DraggableItem = ({ item, index, id }) => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name={item.content}
+                  name={item.title}
                   id={id}
                 />
                 <label className="form-check-label" htmlFor={id}>
-                  {item.content}
+                  {item.title}
                 </label>
               </div>
-              <div className="hoverable-icons mr-2">
-                <BsThreeDots />
+              <div className="hoverable-icons d-flex  my-auto">
+                <div>
+                  <BiEditAlt size={20} onClick={() => setEdit(true)} />
+                </div>
+                <div>
+                  <MdDeleteOutline
+                    size={20}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      deleteSectionTask(projectFromState._id);
+                      deleteTask(item._id, projectFromState);
+                    }}
+                  />
+                </div>
               </div>
             </Paper>
+            {edit && (
+              <AddTask
+                task={item}
+                setEdit={setEdit}
+                project={project}
+                title="checkTask"
+              />
+            )}
           </Box>
         );
       }}

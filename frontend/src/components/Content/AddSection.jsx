@@ -1,39 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import {
-  addProjectToState,
-  getProjects,
-} from "../../redux/actions/projectActions";
-const url = process.env.REACT_APP_DEV_URL;
+import { useDispatch, useSelector } from "react-redux";
+import { postSection } from "../../redux/actions/sectionActions";
 
-const AddSection = ({ setSection, section, title, setEditing, project }) => {
-  const history = useHistory();
+const AddSection = ({ setSection, section, title, setEditing }) => {
+  const [project, setProject] = useState({});
   const dispatch = useDispatch();
-  const postSection = async (sectionObj, project) => {
-    const section = sectionObj;
-    try {
-      const response = await fetch(`${url}/projects/${project._id}/sections`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(section),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(addProjectToState(project));
-        console.log("history: ", history);
-        history.push(`/projects/kanban/${project._id}`);
-        console.log("check me:", data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const projectFromState = useSelector(
+    (state) => state.projects.projectFromState
+  );
 
+  useEffect(() => {
+    setProject(projectFromState);
+  }, [projectFromState]);
   console.log(project);
   return (
     <div
@@ -43,7 +22,7 @@ const AddSection = ({ setSection, section, title, setEditing, project }) => {
       <TextField
         fullWidth
         id="add-section"
-        label="Add Section"
+        label={title === "addSection" ? "Edit Section" : "Add Section"}
         type="text"
         variant="standard"
         value={section}
@@ -58,15 +37,18 @@ const AddSection = ({ setSection, section, title, setEditing, project }) => {
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              postSection({ title: section }, project);
+              dispatch(
+                postSection({ title: section, projectId: project._id }, project)
+              );
+              setSection("");
             }}
             className="btn btn-secondary btn-sm"
           >
-            Add Section
+            {title === "addSection" ? "Edit Section" : "Add Section"}
           </button>
         ) : (
           <button className="btn btn-secondary btn-sm" disabled>
-            Add Section
+            {title === "addSection" ? "Edit Section" : "Add Section"}
           </button>
         )}
         <div onClick={() => setEditing(false)} className="btn btn-sm">

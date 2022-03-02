@@ -8,77 +8,87 @@ import Fade from "@mui/material/Fade";
 import CustomDatePicker from "../CustomDatePicker";
 import { useSelector, useDispatch } from "react-redux";
 import Menu from "../Menu";
-import { postSubTask, postTask, updateTask } from "../../../redux/actions/taskActions";
+import {
+  postSubTask,
+  postTask,
+  updateTask,
+} from "../../../redux/actions/taskActions";
 import { format } from "date-fns";
 import { fetchAllLabels } from "../../../redux/actions/labelActions";
 
-
-
 const today = new Date();
-
 
 const tempPriorityList = [
   {
     _id: 1,
     title: "Low",
-    type: 'priority'
+    type: "priority",
   },
   {
     _id: 2,
     title: "Medium",
-    type: 'priority'
+    type: "priority",
   },
   {
     _id: 3,
     title: "High",
-    type: 'priority'
+    type: "priority",
   },
   {
     _id: 4,
     title: "Dream",
-    type: 'priority'
-  }
-]
+    type: "priority",
+  },
+];
 
 const AddTask = ({
   setAddTask,
-  task = {title: "", description: ""},
+  task = { title: "", description: "" },
   setEdit,
   title = "",
-  parentTaskId
+  parentTaskId,
+  section,
 }) => {
-
   const [showCalendar, setShowCalendar] = useState(true);
   const [taskTitle, setTaskTitle] = useState(task.title || "");
   const [description, setDescription] = useState(task.description || "");
   const [taskLabel, setTaskLabel] = useState(task.label || {});
   const [dueDate, setDueDate] = useState(task.dueDate || today);
-  const [priority, setPriority] = useState(task.priority || {title: 'Low'});
+  const [priority, setPriority] = useState(task.priority || { title: "Low" });
   const [openLabelMenu, setOpenLabelMenu] = useState(null);
   const [openPriorityMenu, setOpenPriorityMenu] = useState(null);
-  
+
   const dispatch = useDispatch();
-  
+  const projectFromState = useSelector(
+    (state) => state.projects.projectFromState
+  );
   const user = useSelector((state) => state.user.userDetails);
-  const {labels} = useSelector((state) => state.labelProps)
+  const { labels } = useSelector((state) => state.labelProps);
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
 
-  const taskObject = {
-    title: taskTitle,
-    description,
-    label: taskLabel._id || {},
-    dueDate: new Date(dueDate),
-    priority: priority === "" ? "Low" : priority.title,
-    owner: user._id,
-  };
-
+  const taskObject =
+    taskLabel !== {}
+      ? {
+          title: taskTitle,
+          description,
+          label: taskLabel._id,
+          dueDate: new Date(dueDate),
+          priority: priority === "" ? "Low" : priority.title,
+          owner: user._id,
+        }
+      : {
+          title: taskTitle,
+          description,
+          dueDate: new Date(dueDate),
+          priority: priority === "" ? "Low" : priority.title,
+          owner: user._id,
+        };
 
   useEffect(() => {
-      dispatch(fetchAllLabels())
+    dispatch(fetchAllLabels());
   }, []);
-
 
   let priorityColor;
   switch (priority) {
@@ -202,7 +212,7 @@ const AddTask = ({
                     aria-controls={openLabelMenu ? "basic-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={openLabelMenu ? "true" : undefined}
-                    style={{color: taskLabel.color}}
+                    style={{ color: taskLabel.color }}
                   />
                   {taskLabel && taskLabel.title}
                   <Menu
@@ -257,8 +267,10 @@ const AddTask = ({
           onClick={(e) => {
             e.preventDefault();
             title === "checkTask" || title === "customModal"
-              ? dispatch(updateTask(task._id, taskObject)) : title === 'subPanel' ? dispatch(postSubTask(parentTaskId, taskObject)) 
-              : dispatch(postTask(taskObject));
+              ? dispatch(updateTask(task._id, taskObject, projectFromState))
+              : title === "subPanel"
+              ? dispatch(postSubTask(parentTaskId, taskObject))
+              : dispatch(postTask(taskObject, section, projectFromState));
             title === "checkTask" || title === "customModal"
               ? setEdit(false)
               : setAddTask(false);

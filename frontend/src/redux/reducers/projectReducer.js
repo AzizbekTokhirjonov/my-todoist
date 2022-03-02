@@ -27,18 +27,6 @@ export const projectReducer = (state = initialStore.projects, action) => {
         projectFromState: {},
       };
     }
-    case ADD_PROJECT_SECTIONS: {
-      return {
-        ...state,
-        projectSections: action.payload,
-      };
-    }
-    case REMOVE_PROJECT_SECTIONS: {
-      return {
-        ...state,
-        projectSections: {},
-      };
-    }
     default:
       return state;
   }

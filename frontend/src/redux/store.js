@@ -6,6 +6,7 @@ import { taskReducer } from "./reducers/tasks";
 import { labelOpsReducer, labelsReducer } from "./reducers/labelsReducer";
 import { projectReducer } from "./reducers/projectReducer";
 import commentsOpsReducer from "./reducers/commentsReducers";
+import { sectionsReducer } from "./reducers/sectionReducers";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const initialStore = {
@@ -22,8 +23,10 @@ export const initialStore = {
   },
   projects: {
     list: [],
-    projectSections: {},
     projectFromState: {},
+  },
+  sections: {
+    list: [],
   },
   labelProps: {
     loading: false,
@@ -67,6 +70,7 @@ const bigReducer = combineReducers({
   labelOps: labelOpsReducer,
   projects: projectReducer,
   commentsOps: commentsOpsReducer,
+  sections: sectionsReducer,
 });
 
 const configureStore = createStore(

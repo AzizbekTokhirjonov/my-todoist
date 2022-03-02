@@ -4,6 +4,7 @@ import {
   REMOVE_PROJECT_SECTIONS,
   ADD_PROJECT,
   REMOVE_PROJECT,
+  GET_SECTIONS,
 } from "../constants/projectConstants.js";
 import { v4 as uuid } from "uuid";
 
