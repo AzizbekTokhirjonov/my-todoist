@@ -11,7 +11,7 @@ import { getTasks, postSection } from "../../redux/actions/taskActions";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AddSection from "./AddSection";
 
-const Inbox = () => {
+const Archived = () => {
   const taskList = useSelector((state) => state.tasks.list);
   const [hover, setHover] = useState(false);
   const [section, setSection] = useState("");
@@ -41,7 +41,7 @@ const Inbox = () => {
       <CustomModal />
       <div className="d-flex justify-content-between">
         <div className="title">
-          <h4>Inbox</h4>
+          <h4>Archived</h4>
         </div>
         <div className="items">
           <ul className="d-flex">
@@ -65,7 +65,7 @@ const Inbox = () => {
             >
               {tasks.map((task, index) => {
                 return (
-                  !task.completed && (
+                  task.completed && (
                     <Draggable
                       key={task._id}
                       draggableId={task._id}
@@ -90,20 +90,8 @@ const Inbox = () => {
           )}
         </Droppable>
       </DragDropContext>
-
-      {addTask ? (
-        <AddTask setAddTask={setAddTask} />
-      ) : (
-        <AddTaskIcon
-          setAddTask={setAddTask}
-          setHover={setHover}
-          hover={hover}
-        />
-      )}
-
-      {/* <AddSection project={""} section={section} setSection={setSection} /> */}
     </div>
   );
 };
 
-export default Inbox;
+export default Archived;

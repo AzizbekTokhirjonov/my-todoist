@@ -26,7 +26,7 @@ const UpcomingDate = ({ tasks, date }) => {
           )
         );
       })}
-      {addTask ? (
+      {/* {addTask ? (
         <AddTask setAddTask={setAddTask} />
       ) : (
         <AddTaskIcon
@@ -34,7 +34,7 @@ const UpcomingDate = ({ tasks, date }) => {
           setHover={setHover}
           hover={hover}
         />
-      )}
+      )} */}
     </li>
   );
 };

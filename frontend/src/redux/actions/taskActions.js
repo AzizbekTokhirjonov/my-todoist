@@ -62,7 +62,7 @@ export const updateTask = (id, taskObject, project) => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        dispatch(handleOpen(data));
+        // dispatch(handleOpen(data));
         dispatch(getTasks());
         if (project) {
           dispatch(getSections(project._id));

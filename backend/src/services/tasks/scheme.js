@@ -54,6 +54,10 @@ const TaskSchema = new Schema(
       default: "Low",
       enum: ["Low", "Medium", "High", "Critical", "Dream"],
     },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
     comments: { default: [], type: [commentSchema] },
     subTasks: { default: [], type: [subTaskScheme] },
     dueDate: { type: Date },

@@ -256,23 +256,25 @@ export default function SideMenu({ open, handleDrawerClose, theme, setOpen }) {
             </ListItem>
           ))
         }
-        <ListItem button key="Archive">
-          <ListItemIcon>
-            {open ? (
-              <ChevronRightIcon />
-            ) : (
-              <Tooltip
-                placement="right"
-                title="Archive"
-                TransitionComponent={Fade}
-                TransitionProps={{ timeout: 600 }}
-              >
-                <ArchiveIcon style={{ color: "#362222" }} />
-              </Tooltip>
-            )}
-          </ListItemIcon>
-          <ListItemText primary="Archive" />
-        </ListItem>
+        <Link to="/archived">
+          <ListItem button key="Archive">
+            <ListItemIcon>
+              {open ? (
+                <ChevronRightIcon />
+              ) : (
+                <Tooltip
+                  placement="right"
+                  title="Archive"
+                  TransitionComponent={Fade}
+                  TransitionProps={{ timeout: 600 }}
+                >
+                  <ArchiveIcon style={{ color: "#362222" }} />
+                </Tooltip>
+              )}
+            </ListItemIcon>
+            <ListItemText primary="Archive" />
+          </ListItem>
+        </Link>
       </List>
     </Drawer>
   );

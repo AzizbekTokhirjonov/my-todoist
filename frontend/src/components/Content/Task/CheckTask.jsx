@@ -14,13 +14,14 @@ import AddTask from "./AddTask";
 import { MdDeleteOutline } from "react-icons/md";
 import CustomDatePicker from "../CustomDatePicker";
 import format from "date-fns/format";
-import { getTasks } from "../../../redux/actions/taskActions";
+import { getTasks, updateTask } from "../../../redux/actions/taskActions";
 const url = process.env.REACT_APP_DEV_URL;
 
 export default function CheckTask({ task }) {
   const [hover, setHover] = useState(false);
   const [edit, setEdit] = useState(false);
   const [showCalendar, setShowCalendar] = useState(true);
+  const [checked, setChecked] = useState(task.completed);
   const dispatch = useDispatch();
 
   const deleteTask = async (id) => {
@@ -32,6 +33,15 @@ export default function CheckTask({ task }) {
     if (response.ok) {
       dispatch(getTasks());
     }
+  };
+
+  const handleChange = () => {
+    setChecked(!checked);
+    const updatedTask = {
+      completed: !checked,
+    };
+    dispatch(updateTask(task._id, updatedTask));
+    console.log("checked:", checked);
   };
   return (
     <div className="wrapper">
@@ -51,14 +61,18 @@ export default function CheckTask({ task }) {
                 type="radio"
                 name={task.title}
                 id={task._id}
+                checked={checked}
+                onClick={handleChange}
               />
-              <label
+              <div
                 onClick={() => dispatch(handleOpen(task))}
                 className="form-check-label"
-                htmlFor={task._id}
+                style={
+                  task.completed ? { textDecoration: "line-through" } : null
+                }
               >
                 {task.title}
-              </label>
+              </div>
             </div>
 
             {task.description && (
