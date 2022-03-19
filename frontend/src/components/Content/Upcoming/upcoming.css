@@ -1,0 +1,13 @@
+#upcoming {
+  width: 50%;
+}
+ul li {
+  list-style: none;
+}
+ul li div.date {
+  font-weight: bold;
+}
+
+/* ul li div.tasks {
+  margin: auto 0;
+} */

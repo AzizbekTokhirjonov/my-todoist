@@ -1,0 +1,14 @@
+/* .accordion-wrapper ul.drawbar-projects li:hover {
+  background-color: rgb(224, 222, 222);
+} */
+.additional-text {
+  color: rgb(54, 54, 54);
+}
+.hoverable-icons div svg {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.hoverable-icons div svg:hover {
+  background-color: rgb(224, 222, 222);
+}
