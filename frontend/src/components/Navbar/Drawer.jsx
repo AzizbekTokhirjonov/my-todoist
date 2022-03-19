@@ -188,7 +188,7 @@ export default function SideMenu({ open, handleDrawerClose, theme, setOpen }) {
         <ListItem button key="Favorites">
           <ListItemIcon>
             {open ? (
-              <ChevronRightIcon />
+              <FavoriteIcon style={{ color: "red" }} />
             ) : (
               <Tooltip
                 placement="right"
@@ -260,7 +260,7 @@ export default function SideMenu({ open, handleDrawerClose, theme, setOpen }) {
           <ListItem button key="Archive">
             <ListItemIcon>
               {open ? (
-                <ChevronRightIcon />
+                <ArchiveIcon style={{ color: "#362222" }} />
               ) : (
                 <Tooltip
                   placement="right"
